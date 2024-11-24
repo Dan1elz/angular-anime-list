@@ -1,0 +1,89 @@
+<div class="content">
+  <form (submit)="onSubmit($event)" [noValidate]="false">
+
+    <div class="title">
+      <h2>Register</h2>
+    </div>
+
+    <div class="display-form-holder">
+      <div class="form-holder">
+        <input
+          type="text"
+          minlength="2"
+          maxlength="25"
+          required
+          placeholder="Fistname"
+          [(ngModel)]="formData.name"
+          name="name"
+        >
+        <span><i class="bi bi-person"></i></span>
+      </div>
+
+
+      <div class="form-holder">
+        <input
+          type="text"
+          minlength="2"
+          maxlength="25"
+          required
+          placeholder="Lastname"
+          [(ngModel)]="formData.lastname"
+          name="lastname"
+        >
+        <span><i class="bi bi-person-fill"></i></span>
+      </div>
+
+      <div class="form-holder">
+        <input
+          type="email"
+          minlength="5"
+          maxlength="50"
+          placeholder="Email"
+          required="required"
+          [(ngModel)]="formData.email"
+          name="email"
+        >
+        <span><i class="bi bi-envelope"></i></span>
+      </div>
+
+      <div class="form-holder">
+        <input
+          class="password"
+          [type]="typePassword[0]"
+          minlength="8"
+          maxlength="32"
+          required
+          placeholder="Password"
+          [(ngModel)]="formData.password"
+           [ngClass]="{'is-invalid': formData.password !== formData.confirmPassword}"
+          name="password"
+        >
+        <span><i class="bi bi-lock"></i></span>
+        <span class="eye" (click)="onEye(0)"><i [classList]="icon[0]"></i></span>
+      </div>
+
+      <div class="form-holder">
+        <input
+          class="password"
+          [type]="typePassword[1]"
+          minlength="8"
+          maxlength="32"
+          required
+          [ngClass]="{'is-invalid': formData.password !== formData.confirmPassword}"
+          placeholder="Confirm Password"
+          [(ngModel)]="formData.confirmPassword"
+          name="confirmPassword"
+        >
+        <span><i class="bi bi-lock-fill"></i></span>
+        <span class="eye" (click)="onEye(1)"><i [classList]="icon[1]"></i></span>
+      </div>
+    </div>
+    <button type="submit" (submit)="onSubmit($event)">Register</button>
+  </form>
+
+
+  <div class="line"><div></div></div>
+
+  <a class="login" href="/login"><i class="bi bi-arrow-return-left"></i></a>
+</div>
+<span [ngClass]="{ 'alert': true, 'error': hasError, 'success': hasSuccess }">{{ message }} <button  (click)="CloseAlert()">x</button></span>

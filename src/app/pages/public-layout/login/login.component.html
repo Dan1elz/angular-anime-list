@@ -1,0 +1,45 @@
+<div class="content">
+  <form (submit)="onSubmit($event)" [noValidate]="false">
+    <div class="title">
+      <h2>Login</h2>
+    </div>
+
+    <div class="form-holder">
+      <input
+      [(ngModel)]="actor.email"
+      type="email"
+      maxlength="50"
+      required
+      placeholder="Email"
+      name="email"
+      >
+      <span><i class="bi bi-person"></i></span>
+    </div>
+
+    <div class="form-holder">
+      <input
+      [(ngModel)]="actor.password"
+      [type]="typePassword"
+      minlength="8"
+      maxlength="32"
+      required
+      placeholder="Password"
+      name="password"
+      >
+      <span><i class="bi bi-lock"></i></span>
+      <span class="eye" (click)="onEye()"><i [classList]="icon"></i></span>
+    </div>
+
+    <div class="recover-password">
+      <a href="/recover">Forgot your password?</a>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+
+
+  <div class="line"><div></div></div>
+
+  <a class="register" href="/register">Cadastre-se com E-mail</a>
+</div>
+<span [ngClass]="{ 'alert': true, 'error': hasError, 'success': hasSuccess }">{{ message }} <button  (click)="CloseAlert()">x</button></span>
