@@ -169,10 +169,8 @@
   }
 
 }
-
-@media (min-width: 100px) {
-  .form-holder {
-    display: none;
+@media screen and (max-width: 500px) {
+  .content form .form-holder {
     width: 100%;
   }
 }

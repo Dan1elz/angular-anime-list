@@ -6,25 +6,26 @@
 
     <div class="form-holder">
       <input
-      [(ngModel)]="actor.email"
       type="email"
+      placeholder="Email"
+      [(ngModel)]="actor.email"
+      name="email"
+      minlength="5"
       maxlength="50"
       required
-      placeholder="Email"
-      name="email"
       >
       <span><i class="bi bi-person"></i></span>
     </div>
 
     <div class="form-holder">
       <input
-      [(ngModel)]="actor.password"
       [type]="typePassword"
+      [(ngModel)]="actor.password"
+      placeholder="Password"
+      name="password"
       minlength="8"
       maxlength="32"
       required
-      placeholder="Password"
-      name="password"
       >
       <span><i class="bi bi-lock"></i></span>
       <span class="eye" (click)="onEye()"><i [classList]="icon"></i></span>
@@ -35,8 +36,6 @@
     </div>
     <button type="submit">Login</button>
   </form>
-
-
 
   <div class="line"><div></div></div>
 

@@ -1,6 +1,8 @@
+import { RegisterDTO } from './../../../core/interfaces/user-dto.interface';
 import { NgClass } from '@angular/common';
-import { Component, model } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -10,9 +12,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  private readonly service = inject(UserService);
   formData = {
     name: 'Daniel',
     lastname: 'Zanni',
+    username: '',
     email: 'danielzanni07@gmail.com',
     password: '12312312',
     confirmPassword: '12312312',
@@ -33,6 +37,20 @@ export class RegisterComponent {
       this.onOpenError();
     } else {
       this.CloseAlert();
+
+      const data: RegisterDTO = { ...this.formData };
+
+      this.service.onRegister(data).subscribe({
+        next: () => {
+          this.message = 'User created successfully';
+          this.onOpenSuccess();
+        },
+        error: (error) => {
+          this.message = `error occurred while login user!`;
+          console.log(error.error.message);
+          this.onOpenError();
+        },
+      });
     }
   }
 

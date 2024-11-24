@@ -1,6 +1,11 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../../core/services/user.service';
+import {
+  LoginDTO,
+  RegisterDTO,
+} from '../../../core/interfaces/user-dto.interface';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +15,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  private readonly service = inject(UserService);
+
   eye: boolean = false;
   typePassword: string = 'password';
   icon: string = 'bi bi-eye-slash';
@@ -18,11 +25,22 @@ export class LoginComponent {
   hasError: boolean = false;
   message: string = '';
 
-  actor = { email: '', password: '' };
+  actor: LoginDTO = { email: 'danielzanni07@gmail.com', password: '12312312' };
 
   onSubmit(Event: Event) {
     Event.preventDefault();
-    console.log(Event);
+
+    this.service.onLogin(this.actor).subscribe({
+      next: (response) => {
+        this.message = 'User logged successfully';
+        this.onOpenSuccess();
+      },
+      error: (error) => {
+        this.message = `error logging in user, check the data!`;
+        console.log(error.error.message);
+        this.onOpenError();
+      },
+    });
   }
 
   onEye() {
@@ -36,6 +54,14 @@ export class LoginComponent {
     }
   }
 
+  onOpenError() {
+    this.hasError = true;
+    setTimeout(() => (this.hasError = false), 5000);
+  }
+  onOpenSuccess() {
+    this.hasSuccess = true;
+    setTimeout(() => (this.hasSuccess = false), 5000);
+  }
   CloseAlert() {
     this.hasSuccess = false;
     this.hasError = false;

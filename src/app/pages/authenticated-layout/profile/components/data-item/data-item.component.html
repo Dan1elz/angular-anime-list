@@ -1,0 +1,36 @@
+@if(icon() === 'bi bi-pencil arrow') {
+  <a (click)="onOpenModal()">
+    <div class="data-item">
+      <p class="item-title">{{ title()}}</p>
+      <p class="item-value">{{ content() }}</p>
+      <i [class]=icon()></i>
+    </div>
+  </a>
+}
+@else {
+  <a>
+    <div class="data-item">
+      <p class="item-title">{{ title()}}</p>
+      <p class="item-value">{{ content() }}</p>
+      <i [class]=icon()></i>
+    </div>
+  </a>
+}
+
+<dialog #modal>
+  <div class="modal-header">
+    <p>Modify {{title()}}</p>
+    <button (click)="onCloseModal()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="modal-content">
+    <input type="text" [(ngModel)]="value" [placeholder]="title()" (keyup)="onVerifySend(value)" (keyup.enter)="onSubmit(value)"/>
+    <i class="bi bi-arrow-up-circle-fill" [ngClass]="{'send': iconController}"></i>
+  </div>
+  <div class="modal-footer">
+    <button (click)="onCloseModal()">Cancel</button>
+    <button (click)="onSubmit(value)">Save</button>
+  </div>
+</dialog>
+
+
+

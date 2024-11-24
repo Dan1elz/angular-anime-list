@@ -1,0 +1,48 @@
+@if(user$ | async; as user)
+{
+
+
+  <div class="grid-template">
+    <div class="card-user">
+      <span><i class="bi bi-person icon"></i></span>
+      <div>
+        <p>{{ user.username }}</p>
+        <p>{{ user.email}}</p>
+        <p> {{ user.quantityWatched ?? 0 }} <i class="bi bi-bookmark-check"></i></p>
+      </div>
+    </div>
+
+    <div class="data-user">
+      <p class="title">Account details</p>
+
+      <div class="card-data">
+        <app-data-item [title]="'Name'" [content]=user.name  [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'name')" />
+        <app-data-item [title]="'Lastname'" [content]=user.lastname [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'lastname')"/>
+        <app-data-item [title]="'Username'" [content]=user.username [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'username')"/>
+        <app-data-item [title]="'Email'" [content]=user.email [icon]="'bi bi-x-lg arrow'"/>
+        <app-data-item [title]="'Created At'" [content]=user.createdAt [icon]="'bi bi-x-lg arrow'"/>
+        <app-data-item [title]="'Updated At'" [content]=user.updatedAt [icon]="'bi bi-x-lg arrow'"/>
+      </div>
+    </div>
+
+    <div class="disconect">
+      <a (click)="onOpenModal()">Delete Account</a>
+      <a (click)="Logout()">Logout</a>
+
+    </div>
+
+  </div>
+
+
+  <dialog #modal>
+  <div class="modal-header">
+    <p>Are you sure you want to delete your account?</p>
+    <button (click)="onCloseModal()"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="modal-footer">
+    <button (click)="onCloseModal()">Cancel</button>
+    <button (click)="onDelete(user.id)">Confirm</button>
+  </div>
+  </dialog>
+
+}

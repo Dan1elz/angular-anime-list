@@ -1,0 +1,28 @@
+<div class="nav-items-left">
+  <a href="/auth/home" routerLinkActive="active"><i class="bi bi-house"></i><span>Home</span></a>
+  <a href="/auth/favorites" routerLinkActive="active"><i class="bi bi-heart"></i><span>Favorites</span></a>
+  <a href="/auth/categories" routerLinkActive="active"><i class="bi bi-ui-checks-grid"></i><span>Categories</span></a>
+  <a href="/auth/add-anime" routerLinkActive="active"><i class="bi bi-bookmark-plus"></i></a>
+</div>
+<div class="nav-items-right">
+  <div class="search">
+    <input
+      type="text"
+      [(ngModel)]="search"
+      (keydown.enter)="onSendSearch()"
+      placeholder="Search anime..."
+    >
+    <button (click)="onSendSearch()"><i class="bi bi-search"></i></button>
+  </div>
+  <div class="person">
+    <span
+    (click)="onDropdown()"
+    class="person-icon"><i class="bi bi-person"></i></span>
+
+    <div class="dropdown" [ngClass] = "{'open': dropdown }">
+      <a href="auth/profile" routerLinkActive="active"><span><i class="bi bi-person"></i></span>Profile</a>
+      <a href="auth/settings" routerLinkActive="active"><span><i class="bi bi-gear"></i></span>Settings</a>
+      <a (click)="onDisconnect()"><span><i class="bi bi-box-arrow-right"></i></span>Logout</a>
+    </div>
+  </div>
+</div>
