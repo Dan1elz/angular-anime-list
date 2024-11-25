@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, Signal, signal } from '@angular/core';
 import {
   LoginDTO,
   UserInfoDTO,
   RegisterDTO,
   UserDTO,
+  UpdateDTO,
 } from '../interfaces/user-dto.interface';
 import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -17,6 +18,8 @@ export class UserService {
   private router = inject(Router);
   private urlApi = `http://localhost:5188`;
   private userInfo = signal<UserInfoDTO | null>(null);
+
+  readonlyUserInfo = this.userInfo.asReadonly();
 
   constructor() {
     effect(() => this.onSyncUserInfo());
@@ -38,10 +41,12 @@ export class UserService {
   }
 
   onGetUser(): Observable<UserDTO> {
-    const token = this.userInfo();
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userInfo()}`,
+    });
     return this.http.get<any>(`${this.urlApi}/api/user`, { headers }).pipe(
       map((response: any) => {
+        console.log(response);
         if (response && response.data) {
           return response.data as UserDTO;
         }
@@ -50,11 +55,32 @@ export class UserService {
     );
   }
 
+  onUpdate(update: UpdateDTO): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userInfo()}`,
+    });
+    return this.http.put(`${this.urlApi}/api/user`, update, { headers });
+  }
+
+  onDelete(): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userInfo()}`,
+    });
+    return this.http.delete(`${this.urlApi}/api/user`, { headers });
+  }
+
+  onLogout() {
+    localStorage.removeItem('UserData');
+    this.userInfo.set(null);
+    this.router.navigate(['/login']);
+  }
+
   onSyncUserInfo() {
     if (this.isLocalStorageAvailable()) {
       localStorage.setItem('UserData', JSON.stringify(this.userInfo()));
     }
   }
+
   onSetUserInfo(userInfo: UserInfoDTO) {
     this.userInfo.set(userInfo);
   }
@@ -65,10 +91,6 @@ export class UserService {
       if (!userInfo) return;
       this.onSetUserInfo(JSON.parse(userInfo));
     }
-  }
-  onLogout() {
-    localStorage.removeItem('UserData');
-    this.userInfo.set(null);
   }
 
   isUserLogged(): boolean {

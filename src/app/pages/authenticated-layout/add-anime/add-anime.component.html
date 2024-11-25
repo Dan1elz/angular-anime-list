@@ -1,1 +1,78 @@
-<p>add-anime works!</p>
+<div class="content">
+  <div class="content-header">
+    <h1>Add Anime</h1>
+  </div>
+  <div class="content-body">
+    <form action="" (submit)="onSubmit($event)">
+
+      <div class="form-holder">
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          [(ngModel)]="anime.title"
+          required
+        >
+      </div>
+
+      <div class="form-holder">
+        <input
+          type="text"
+          name="alternativeTitle"
+          placeholder="Alternative Title"
+          [(ngModel)]="anime.alternativeTitle"
+          required
+        >
+      </div>
+
+      <div class="form-holder">
+        <input
+          type="number"
+          name="year"
+          placeholder="Year"
+          [(ngModel)]="anime.year"
+          required
+        >
+      </div>
+
+      <div class="form-holder">
+        <input
+          type="text"
+          name="description"
+          placeholder="Description"
+          [(ngModel)]="anime.description"
+          required
+        >
+      </div>
+
+      <div class="form-holder">
+        <select name="lenguage" [(ngModel)]="anime.lenguage"  required>
+          <option value="Dub - Leg">Dubbed and Subtitled</option>
+          <option value="Leg">Subtitled</option>
+          <option value="Dub">Dubbed </option>
+        </select>
+      </div>
+      @if(genres$ | async; as genres)
+      {
+        @for (genre of genres; track genre.id) {
+          <div class="form-holder">
+            <input
+            type="checkbox"
+            [id]="genre.id"
+            [value]="genre.id"
+            [checked]="isSelected(genre.id)"
+            (change)="onGenreChange($event, genre.id)"
+          >
+            <label [for]="genre.id">{{ genre.name }}</label>
+          </div>
+
+        }
+      }
+
+        <button type="submit">Add Anime</button>
+
+    </form>
+
+
+  </div>
+</div>

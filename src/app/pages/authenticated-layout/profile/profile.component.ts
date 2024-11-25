@@ -6,10 +6,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
-import { UserDTO } from '../../../core/interfaces/user-dto.interface';
+import {
+  UpdateDTO,
+  UserDTO,
+} from '../../../core/interfaces/user-dto.interface';
 import { DataItemComponent } from './components/data-item/data-item.component';
 import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +20,7 @@ import { AsyncPipe } from '@angular/common';
   imports: [DataItemComponent, AsyncPipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
+  providers: [DatePipe],
 })
 export class ProfileComponent implements OnInit {
   private service = inject(UserService);
@@ -26,19 +30,32 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.user$ = this.service.onGetUser();
   }
-  Logout() {}
 
-  onSubmit(event: any, campo: string) {
-    // if (campo === 'name') {
-    //   this.user.name = event;
-    // } else if (campo === 'lastname') {
-    //   this.user.lastname = event;
-    // } else if (campo === 'username') {
-    //   this.user.username = event;
-    // }
+  constructor(private datePipe: DatePipe) {}
+  Logout() {
+    this.service.onLogout();
   }
 
-  onDelete(id: string) {}
+  onSubmit(event: any, campo: string, user: UserDTO) {
+    const update: UpdateDTO = { ...user, [campo]: event };
+    this.service.onUpdate(update).subscribe({
+      next: (response) => {
+        this.user$ = this.service.onGetUser();
+      },
+    });
+  }
+
+  onDelete() {
+    this.service.onDelete().subscribe({
+      next: (response) => {
+        this.service.onLogout();
+      },
+    });
+  }
+
+  onFormatDate(date: string): string {
+    return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm') || '';
+  }
 
   onOpenModal() {
     this.modal.nativeElement.showModal();

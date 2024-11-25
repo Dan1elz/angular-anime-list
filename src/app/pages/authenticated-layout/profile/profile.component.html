@@ -16,12 +16,12 @@
       <p class="title">Account details</p>
 
       <div class="card-data">
-        <app-data-item [title]="'Name'" [content]=user.name  [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'name')" />
-        <app-data-item [title]="'Lastname'" [content]=user.lastname [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'lastname')"/>
-        <app-data-item [title]="'Username'" [content]=user.username [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'username')"/>
+        <app-data-item [title]="'Name'" [content]=user.name  [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'name', user)" />
+        <app-data-item [title]="'Lastname'" [content]=user.lastname [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'lastname', user)"/>
+        <app-data-item [title]="'Username'" [content]=user.username [icon]="'bi bi-pencil arrow'" (return)="onSubmit($event, 'username', user)"/>
         <app-data-item [title]="'Email'" [content]=user.email [icon]="'bi bi-x-lg arrow'"/>
-        <app-data-item [title]="'Created At'" [content]=user.createdAt [icon]="'bi bi-x-lg arrow'"/>
-        <app-data-item [title]="'Updated At'" [content]=user.updatedAt [icon]="'bi bi-x-lg arrow'"/>
+        <app-data-item [title]="'Created At'" [content]="onFormatDate(user.created)" [icon]="'bi bi-x-lg arrow'"/>
+        <app-data-item [title]="'Updated At'" [content]="onFormatDate(user.updated)"  [icon]="'bi bi-x-lg arrow'"/>
       </div>
     </div>
 
@@ -41,7 +41,7 @@
   </div>
   <div class="modal-footer">
     <button (click)="onCloseModal()">Cancel</button>
-    <button (click)="onDelete(user.id)">Confirm</button>
+    <button (click)="onDelete()">Confirm</button>
   </div>
   </dialog>
 

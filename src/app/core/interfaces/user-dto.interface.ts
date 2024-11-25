@@ -21,6 +21,13 @@ export interface UserDTO {
   username?: string;
   email: string;
   quantityWatched?: number;
-  createdAt: string;
-  updatedAt: string;
+  created: string;
+  updated: string;
+}
+
+export interface UpdateDTO {
+  name: string;
+  lastname: string;
+  username?: string;
+  email: string;
 }

@@ -1,21 +1,11 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 :root {
-  --font-color-bright: #ffffff;
   --line: rgba(168, 168, 168, 0.5);
-  --card-bg: #343A40;
-
-
-
-  --profile-icon-color: #343A40;
-
-  --modal-input-color: #F4F4F4;
-  --modal-input-icon-color: #e2dfdf;
-  --modal-input-icon-hover: #1B2021;
 
 
   --stars-color: #FFE548;
-
+  --modal-icon-color: #e2dfdf;
 
 
   --alert-color: #ff0000;
@@ -38,7 +28,6 @@
   --error: #c20c12;
   --error-font: #460202;
 
-
   --font-color-danger: #c20c12;
   --color-danger-bg: rgba(233, 14, 14, 0.15);
   --font-color-info: #0A62BE;
@@ -56,6 +45,7 @@
 
   --bg-primary: #F2F4F3;
   --bg-secondary: #ffffff;
+  --bg-card: #343A40;
 }
 * {
   margin: 0;

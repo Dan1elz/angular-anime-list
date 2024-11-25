@@ -110,9 +110,9 @@ dialog {
 
   .modal-header {
     display: flex;
-    justify-content: space-between;
     align-items: start;
     margin-bottom: 10px;
+    justify-content: space-between;
 
     p {
       font-size: 20px;
@@ -120,43 +120,39 @@ dialog {
       color: var(--font-color-seccondary);
     }
     button {
-      background-color: transparent;
       border: none;
       outline: none;
-      cursor: pointer;
       font-size: 25px;
+      cursor: pointer;
+      background-color: transparent;
     }
   }
   .modal-footer {
-    position: absolute;
+    right: 30px;
     bottom: 20px;
     display: flex;
-    right: 30px;
+    position: absolute;
 
     button {
-      background-color: transparent;
       border: none;
       outline: none;
       cursor: pointer;
       font-size: 16px;
-      margin-left: 10px;
       padding: 5px 10px;
+      margin-left: 10px;
       border-radius: 50px;
       transition: 200ms all;
+      background-color: transparent;
     }
     button:nth-child(1) {
       color: var(--font-color-danger);
 
-      &:hover {
-        background-color: var(--color-danger-bg);
-      }
+      &:hover { background-color: var(--color-danger-bg); }
     }
     button:nth-child(2) {
       color: var(--font-color-info);
 
-      &:hover {
-        background-color:var(--color-info-bg);
-      }
+      &:hover { background-color:var(--color-info-bg); }
     }
   }
 }

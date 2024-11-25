@@ -8,7 +8,7 @@ import { AddAnimeComponent } from './pages/authenticated-layout/add-anime/add-an
 import { ProfileComponent } from './pages/authenticated-layout/profile/profile.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
 
   { path: 'login', component: LoginComponent },
 

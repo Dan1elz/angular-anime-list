@@ -6,6 +6,7 @@ export const isUserLoggedGuard: CanActivateFn = () => {
   const service = inject(UserService);
   const router = inject(Router);
   if (service.isUserLogged()) return true;
-
-  return router.navigate(['/login']);
+  else {
+    return router.navigate(['/login']);
+  }
 };

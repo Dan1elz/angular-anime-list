@@ -42,11 +42,11 @@ export class DataItemComponent implements OnInit {
     this.modal.nativeElement.close();
   }
   onVerifySend(data: string) {
-    // if (data.length > 0) {
-    //   this.iconController = true;
-    // } else {
-    //   this.iconController = false;
-    // }
+    if (data.length > 0) {
+      this.iconController = true;
+    } else {
+      this.iconController = false;
+    }
   }
   onSubmit(data: any) {
     if (this.value.length > 0) {
