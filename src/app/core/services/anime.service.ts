@@ -14,6 +14,17 @@ export class AnimeService {
   private urlApi = `http://localhost:5188`;
   private token = this.userService.readonlyUserInfo;
 
+  onPostAnime(anime: FormData): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    for (let pair of (anime as any).entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+    return this.http.post<any>(`${this.urlApi}/api/anime`, anime, { headers });
+  }
+
   onGetGenres(): Observable<GenreDTO[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,

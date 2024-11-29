@@ -1,10 +1,9 @@
 <div class="content">
-  <div class="content-header">
-    <h1>Add Anime</h1>
-  </div>
-  <div class="content-body">
-    <form action="" (submit)="onSubmit($event)">
+<form action="" [noValidate]="false" (submit)="onSubmit($event)">
+  <div class="content-header"><h1>Add Anime</h1></div>
+  <div class="content-article">
 
+    <div class="info-element">
       <div class="form-holder">
         <input
           type="text"
@@ -19,60 +18,106 @@
         <input
           type="text"
           name="alternativeTitle"
-          placeholder="Alternative Title"
+          placeholder="Alternative Title (Optional)"
           [(ngModel)]="anime.alternativeTitle"
-          required
         >
       </div>
 
       <div class="form-holder">
-        <input
-          type="number"
-          name="year"
-          placeholder="Year"
-          [(ngModel)]="anime.year"
-          required
-        >
-      </div>
-
-      <div class="form-holder">
-        <input
-          type="text"
+        <textarea
+          maxlength="500"
+          rows="7"
           name="description"
           placeholder="Description"
           [(ngModel)]="anime.description"
           required
-        >
+        ></textarea>
       </div>
 
-      <div class="form-holder">
-        <select name="lenguage" [(ngModel)]="anime.lenguage"  required>
-          <option value="Dub - Leg">Dubbed and Subtitled</option>
-          <option value="Leg">Subtitled</option>
-          <option value="Dub">Dubbed </option>
-        </select>
-      </div>
-      @if(genres$ | async; as genres)
-      {
-        @for (genre of genres; track genre.id) {
-          <div class="form-holder">
-            <input
-            type="checkbox"
-            [id]="genre.id"
-            [value]="genre.id"
-            [checked]="isSelected(genre.id)"
-            (change)="onGenreChange($event, genre.id)"
+      <div class="line-holder">
+        <div class="form-holder">
+          <input
+            type="number"
+            name="year"
+            min="1900"
+            placeholder="Year"
+            [(ngModel)]="anime.year"
+            required
           >
-            <label [for]="genre.id">{{ genre.name }}</label>
-          </div>
+        </div>
 
+        <div class="form-holder">
+          <input
+            min="0"
+            max="10"
+            type="number"
+            name="rating"
+            placeholder="Rating"
+            [(ngModel)]="anime.rating"
+          />
+        </div>
+
+        <div class="form-holder">
+          <select name="lenguage" [(ngModel)]="anime.lenguage"  required>
+            <option value="" selected disabled >Select Lenguage</option>
+            <option value="Dub - Leg">Dubbed and Subtitled</option>
+            <option value="Leg">Subtitled</option>
+            <option value="Dub">Dubbed </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chechbox-holder">
+        @if(genres$ | async; as genres)
+        {
+          @for (genre of genres; track genre.id) {
+            <div class="">
+              <input
+              type="checkbox"
+              [id]="genre.id"
+              [value]="genre.id"
+              [checked]="isSelected(genre.id)"
+              (change)="onGenreChange($event, genre.id)"
+            >
+              <label [for]="genre.id">{{ genre.name }}</label>
+            </div>
+          }
         }
-      }
-
-        <button type="submit">Add Anime</button>
-
-    </form>
+      </div>
+    </div>
 
 
+    <div class="image-element">
+      <img [src]="anime.image" alt="Anime Image">
+      <div class="icons">
+        <i (click)="onOpenFile()" class="bi bi-folder-plus"></i>
+        <i (click)="onRemoveFile()" class="bi bi-x-lg"></i>
+      </div>
+      <div class="check">
+        <input
+        type="checkbox"
+        [id]="anime.watchedState"
+        [value]="anime.watchedState"
+       (change)="onWatchedStateChange($event)"
+      >
+        <label [for]="anime.watchedState">mark as watched</label>
+      </div>
+      <input
+        type="file"
+        name="image"
+        required
+        [(ngModel)]="anime.imageFile"
+        (change)="onFileChange($event)"
+      >
+
+
+
+    </div>
+
+
+
+
+    <button type="submit">Add Anime</button>
   </div>
+</form>
 </div>
