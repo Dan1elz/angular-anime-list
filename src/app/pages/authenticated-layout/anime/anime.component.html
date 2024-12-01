@@ -59,7 +59,7 @@
             <span class="rating">
               @for(icon of onGetStarIcons(anime.rating ); track $index) {
               <i [class]="icon"></i>
-              }
+              } ({{ (anime.rating).toFixed(1) }})
             </span>
           </div>
         </div>
