@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
+  AddSeasonDTO,
   AnimeDTO,
   AnimesDTO,
   GenreDTO,
@@ -102,6 +103,15 @@ export class AnimeService {
     );
   }
 
+  onAddSeason(season: AddSeasonDTO): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http.post<any>(`${this.urlApi}/api/season`, season, {
+      headers,
+    });
+  }
   private mapAnimesData(data: any): AnimesDTO {
     return {
       id: data.anime.id,

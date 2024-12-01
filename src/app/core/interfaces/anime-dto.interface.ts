@@ -32,9 +32,15 @@ export interface AnimeDTO {
 }
 export interface SeasonsDTO {
   id: string;
-  name: string;
+  seasonName: string;
   quantityEpisodes: number;
 }
+export interface AddSeasonDTO {
+  animeId: string;
+  seasonName: string;
+  quantityEpisodes: number;
+}
+
 interface Genre {
   name: string;
 }

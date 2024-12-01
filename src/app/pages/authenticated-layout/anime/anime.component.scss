@@ -14,6 +14,7 @@
       margin-top: 5rem;
       width: calc(100% - 250px);
       grid-template-columns: repeat(3, auto);
+      margin-bottom: 3rem;
 
 
       .info-element {
@@ -129,7 +130,7 @@
               }
             }
           }
-          .season {
+          .season, .season-add form {
             display: flex;
             justify-content: space-between;
             font-size: 16px;
@@ -139,6 +140,43 @@
             color:  var(--font-color-white);
             box-shadow: var(--shadow);
             background-color: var(--bg-card);
+          }
+          .season-add form {
+            background-color: var(--font-color-seccondary);
+            .season-title, div .season-episodes{
+             width: calc(100% / 2 - 30px);
+             border: none;
+             outline: none;
+              background-color: transparent;
+              font-size: 16px;
+              color: var(--font-color-white);
+
+            }
+            div {
+              display: flex;
+              width: calc(100% / 2);
+              align-items: center;
+              gap: 10px;
+              justify-content: flex-end;
+
+              .season-episodes {
+                width: calc(100% - 30px);
+                -moz-appearance: textfield;
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+                }
+              }
+              button {
+               border: none;
+               outline: none;
+               cursor: pointer;
+               background: transparent;
+               color: var(--font-color-white);
+               font-size: 20px;
+              }
+            }
           }
         }
       }

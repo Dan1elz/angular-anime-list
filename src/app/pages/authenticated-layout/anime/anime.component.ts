@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AnimeService } from '../../../core/services/anime.service';
 import {
+  AddSeasonDTO,
   AnimeDTO,
   SeasonsDTO,
 } from '../../../core/interfaces/anime-dto.interface';
@@ -21,7 +22,7 @@ export class AnimeComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   anime$!: Observable<AnimeDTO>;
   animeId: string = '';
-
+  addSeason: boolean = false;
   ngOnInit(): void {
     this.onGetAnimes();
   }
@@ -64,7 +65,24 @@ export class AnimeComponent implements OnInit {
       },
     });
   }
-  onAddSeason(anime: AnimeDTO): void {
-    console.log(anime);
+  onAddSeason(event: Event, anime: AnimeDTO): void {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const seasonName = formData.get('seasonName');
+    const quantityEpisodes = formData.get('quantityEpisodes');
+
+    var season: AddSeasonDTO = {
+      animeId: this.animeId,
+      seasonName: seasonName!.toString(),
+      quantityEpisodes: Number(quantityEpisodes as unknown),
+    };
+
+    this.service.onAddSeason(season).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+    });
   }
 }

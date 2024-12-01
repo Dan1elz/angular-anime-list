@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
+  private readonly service = inject(UserService);
   search: string = '';
   dropdown: boolean = false;
 
@@ -19,5 +21,7 @@ export class NavbarComponent {
 
   onSendSearch() {}
 
-  onDisconnect() {}
+  onDisconnect() {
+    this.service.onLogout();
+  }
 }

@@ -29,14 +29,27 @@
          <div class="season-header">
             <div class="season-title">Season</div>
            <div class="season-functions">
-              <button class="btn btn-add" (click)="onAddSeason(anime)"><i class="bi bi-plus-square"></i></button>
+              <button class="btn btn-add" (click)="addSeason = true"><i class="bi bi-plus-square"></i></button>
            </div>
          </div>
           @for (item of anime.seasons; track $index) {
             <div class="season">
-              <div class="season-title">{{ item.name }}</div>
+              <div class="season-title"> {{ item.seasonName }}</div>
               <div class="season-episodes">{{ item.quantityEpisodes }} Eposides</div>
             </div>
+            }
+            @if(addSeason == true)
+            {
+              <div class="season-add">
+                <form (submit)="onAddSeason($event, anime)" [noValidate]="false">
+                 <input class="season-title" type="text" placeholder="Season Name" name="seasonName" required>
+
+                 <div>
+                    <input class="season-episodes" type="number" min="1" placeholder="Quantity of Episodes" name="quantityEpisodes" required>
+                  <button class="btn btn-save" type="submit"><i class="bi bi-send-plus"></i></button>
+                </div>
+                </form>
+              </div>
             }
         </div>
       </div>
