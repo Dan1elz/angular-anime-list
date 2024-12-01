@@ -121,3 +121,4 @@
   </div>
 </form>
 </div>
+<span [ngClass]="{ 'alert': true, 'error': hasError, 'success': hasSuccess }">{{ message }} <button  (click)="CloseAlert()">x</button></span>

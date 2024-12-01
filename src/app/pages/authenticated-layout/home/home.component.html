@@ -1,1 +1,18 @@
-<p>home works!</p>
+@if(animes$ | async; as animes)
+{
+  <app-carousel-hero-highlight
+  [data] = "animes"/>
+
+
+  <!-- <app-carousel-cards
+    [header]="'Animes'"
+    [link]="'animes'"
+    [data]="animes$"
+    /> -->
+
+
+
+  @for (anime of animes; track anime.id) {
+
+  }
+}

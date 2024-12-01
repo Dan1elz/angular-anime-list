@@ -6,6 +6,7 @@ import { isUserLoggedGuard } from './core/guards/is-user-logged.guard';
 import { HomeComponent } from './pages/authenticated-layout/home/home.component';
 import { AddAnimeComponent } from './pages/authenticated-layout/add-anime/add-anime.component';
 import { ProfileComponent } from './pages/authenticated-layout/profile/profile.component';
+import { AnimeComponent } from './pages/authenticated-layout/anime/anime.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
@@ -24,6 +25,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'add-anime', component: AddAnimeComponent },
       { path: 'settings', component: AddAnimeComponent },
+      { path: 'anime/:id', component: AnimeComponent },
     ],
   },
 ];

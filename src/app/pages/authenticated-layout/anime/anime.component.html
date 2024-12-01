@@ -1,0 +1,56 @@
+@if(anime$ | async; as anime)
+{
+  <div class="content">
+    <div class="grid-template">
+      <div class="info-element">
+        <div class="info-functions">
+          <button class="btn btn-delete" (click)="onDelete(anime)"><i class="bi bi-trash"></i></button>
+          <button class="btn btn-edit" (click)="onEdit(anime)"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-favorite" (click)="onFavorite(anime)"><i
+            [ngClass]="{'bi bi-heart': !anime.favoriteState, 'bi bi-heart-fill': anime.favoriteState}"></i></button>
+
+        </div>
+        <div class="info-title">{{ anime.title | formatJSONtoString}}</div>
+        <div class="info-year">Year - {{ anime.year }}</div>
+        <div class="info-description">{{ anime.description  | formatJSONtoString}}</div>
+        <div class="info-genre">
+          @for( genre of anime.genres; track $index)
+          { <span>{{ genre.name }}</span> }
+        </div>
+
+        <div class="info-complement">
+          <div class="info-title-alternative"><span>Alternative Title:</span> {{ (anime.alternativeTitle || 'N/A') | formatJSONtoString }}</div>
+          <div class="info-idioma"><span>Language:</span>{{ anime.lenguage | formatJSONtoString }}</div>
+          <div class="info-quantity-episodes"><span>Number of Episodes:</span>{{ anime.seasons ? onQuantity(anime.seasons) : '0' }}</div>
+          <div class="info-watched"><span>Viewing State</span>{{ anime.watchedState ? 'watched' : 'unattended' }}</div>
+        </div>
+
+        <div class="seasons-element">
+         <div class="season-header">
+            <div class="season-title">Season</div>
+           <div class="season-functions">
+              <button class="btn btn-add" (click)="onAddSeason(anime)"><i class="bi bi-plus-square"></i></button>
+           </div>
+         </div>
+          @for (item of anime.seasons; track $index) {
+            <div class="season">
+              <div class="season-title">{{ item.name }}</div>
+              <div class="season-episodes">{{ item.quantityEpisodes }} Eposides</div>
+            </div>
+            }
+        </div>
+      </div>
+        <div class="image-element">
+          <div class="img">
+            <img [src]="anime.image">
+            <span class="rating">
+              @for(icon of onGetStarIcons(anime.rating ); track $index) {
+              <i [class]="icon"></i>
+              }
+            </span>
+          </div>
+        </div>
+    </div>
+  </div>
+
+}

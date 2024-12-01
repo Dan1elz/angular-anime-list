@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,21 +9,22 @@ import { AnimeService } from '../../../core/services/anime.service';
 @Component({
   selector: 'app-add-anime',
   standalone: true,
-  imports: [FormsModule, AsyncPipe],
+  imports: [FormsModule, AsyncPipe, NgClass],
   templateUrl: './add-anime.component.html',
   styleUrl: './add-anime.component.scss',
 })
 export class AddAnimeComponent implements OnInit {
   private readonly service = inject(AnimeService);
+  private route = inject(Router);
   anime = {
-    title: 'Tensei Shitara Slime Datta Ken',
-    alternativeTitle: 'Anime do Slime',
-    year: 2021,
+    title: '',
+    alternativeTitle: '',
+    year: null as number | null,
     image:
       'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500',
-    description: 'OLHAAAAAA O SLIME',
+    description: '',
     lenguage: '',
-    rating: 8,
+    rating: null as number | null,
     favoriteState: false,
     watchedState: false,
     genres: [] as string[],
@@ -30,6 +32,10 @@ export class AddAnimeComponent implements OnInit {
   };
 
   genres$!: Observable<GenreDTO[]>;
+
+  hasSuccess: boolean = false;
+  hasError: boolean = false;
+  message: string = '';
 
   ngOnInit(): void {
     this.genres$ = this.service.onGetGenres();
@@ -49,7 +55,6 @@ export class AddAnimeComponent implements OnInit {
       this.onRemoveFile();
     }
   }
-
   onWatchedStateChange(event: Event): void {
     const check = event.target as HTMLInputElement;
     if (check.checked) {
@@ -66,20 +71,29 @@ export class AddAnimeComponent implements OnInit {
       this.anime.genres = this.anime.genres.filter((id) => id !== genreId);
     }
   }
-
   isSelected(genreId: string): boolean {
     return this.anime.genres.includes(genreId);
   }
-
   onRemoveFile() {
     this.anime.imageFile = null;
     this.anime.image =
       'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500';
   }
-
   onOpenFile() {
     var input = document.querySelector<HTMLElement>('input[type="file"]');
     input!.click();
+  }
+  onOpenError() {
+    this.hasError = true;
+    setTimeout(() => (this.hasError = false), 5000);
+  }
+  onOpenSuccess() {
+    this.hasSuccess = true;
+    setTimeout(() => (this.hasSuccess = false), 5000);
+  }
+  CloseAlert() {
+    this.hasSuccess = false;
+    this.hasError = false;
   }
 
   onSubmit(Event: Event) {
@@ -118,9 +132,13 @@ export class AddAnimeComponent implements OnInit {
     this.service.onPostAnime(formData).subscribe({
       next: (response) => {
         console.log(response);
+        var id = response.data;
+        this.route.navigate([`/auth/anime/${id}`]);
       },
       error: (error) => {
-        console.error(error);
+        this.message = `error logging in user, check the data!`;
+        console.log(error.error.message);
+        this.onOpenError();
       },
     });
   }

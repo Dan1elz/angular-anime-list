@@ -1,0 +1,177 @@
+:host {
+  display: block;
+
+
+
+  .content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
+    .grid-template {
+      display: grid;
+      margin-top: 5rem;
+      width: calc(100% - 250px);
+      grid-template-columns: repeat(3, auto);
+
+
+      .info-element {
+        padding: 0 30px;
+        position: relative;
+        grid-area: 1 / 1 / span 2 / span 2;
+
+        .info-functions {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+          // position: absolute;
+          right: 0;
+
+          button {
+            width: 40px;
+            height: 40px;
+            outline: none;
+            cursor: pointer;
+            font-size: 22px;
+            border-radius: 50px;
+            color: var(--bg-card);
+            transition: all 300ms;
+            border: 1px solid var(--bg-card);
+
+            &:hover {
+              color: var(--font-color-white);
+              background-color: var(--bg-card);
+            }
+            &.btn-delete, &.btn-favorite {
+              color: var(--error);
+              border-color: var(--error);
+              &:hover {
+                background-color: var(--error);
+                color: var(--font-color-white);
+              }
+            }
+          }
+
+        }
+
+        .info-title {
+          font-weight: 600;
+          font-size: 24px;
+        }
+        .info-year {
+          font-size: 15px;
+          font-weight: 300;
+          margin-left: 10px;
+        }
+        .info-description {
+          font-size: 15px;
+          max-width: 700px;
+          font-weight: 400;
+          margin: 5px 0 0 5px;
+          text-align: justify;
+          line-height: 1.5rem;
+        }
+        .info-genre {
+          gap: 10px;
+          display: flex;
+          margin: 20px 0;
+          flex-wrap: wrap;
+          max-width: 700px;
+
+          span {
+            font-size: 16px;
+            border-radius: 5px;
+            padding: 10px 25px;
+            font-weight: regular;
+            transition: 300ms all;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            text-transform: uppercase;
+            background-color: var(--bg-card);
+            color:  var(--font-color-white);
+
+            &:hover { background-color: var(--navbar-dropdown); }
+          }
+        }
+        .info-complement {
+          div {
+            font-size: 14px;
+            line-height: 1.3rem;
+            font-weight: 300;
+            margin-left: 10px;
+
+            span {
+              font-weight: 500;
+              margin-right: 5px;
+            }
+          }
+        }
+        .seasons-element {
+          gap: 10px;
+          display: grid;
+          max-width: 700px;
+          margin-top: 1rem;
+
+          .season-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .season-functions {
+              button {
+                outline: none;
+                cursor: pointer;
+                font-size: 25px;
+                color: var(--bg-card);
+                transition: all 300ms;
+                border: none;
+              }
+            }
+          }
+          .season {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-weight: regular;
+            color:  var(--font-color-white);
+            box-shadow: var(--shadow);
+            background-color: var(--bg-card);
+          }
+        }
+      }
+      .image-element {
+        display: flex;
+        padding: 0 30px;
+        position: relative;
+        justify-content: end;
+        grid-area: 1 / 3 / span 1 / span 1;
+
+        .img {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        img {
+          width: 300px;
+          object-fit: cover;
+          border-radius: 5px;
+          box-shadow: var(--shadow);
+        }
+        .rating {
+          width: 100%;
+          text-align: center;
+          margin-top: 10px;
+          padding: 7px 0;
+          background-color: var(--bg-card);
+          border-radius: 5px;
+          color: var(--stars-color);
+          box-shadow: var(--shadow);
+        }
+      }
+    }
+  }
+}
