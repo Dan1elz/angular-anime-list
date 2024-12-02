@@ -17,7 +17,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [DataItemComponent, AsyncPipe],
+  imports: [DataItemComponent, AsyncPipe, DatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [DatePipe],
@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onFormatDate(date: string): string {
-    return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm') || '';
+    return this.datePipe.transform(date, 'MMM d, y, h:mm a') || '';
   }
 
   onOpenModal() {

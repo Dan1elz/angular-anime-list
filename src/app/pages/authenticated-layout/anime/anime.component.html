@@ -4,11 +4,11 @@
     <div class="grid-template">
       <div class="info-element">
         <div class="info-functions">
-          <button class="btn btn-delete" (click)="onDelete(anime)"><i class="bi bi-trash"></i></button>
+          <button class="btn btn-delete" (click)="onOpenModal()"><i class="bi bi-trash"></i></button>
           <button class="btn btn-edit" (click)="onEdit(anime)"><i class="bi bi-pencil"></i></button>
-          <button class="btn btn-favorite" (click)="onFavorite(anime)"><i
-            [ngClass]="{'bi bi-heart': !anime.favoriteState, 'bi bi-heart-fill': anime.favoriteState}"></i></button>
-
+          <button class="btn btn-favorite" (click)="onFavorite(anime)">
+            <i [ngClass]="{'bi bi-heart': !anime.favoriteState, 'bi bi-heart-fill': anime.favoriteState}"></i>
+          </button>
         </div>
         <div class="info-title">{{ anime.title | formatJSONtoString}}</div>
         <div class="info-year">Year - {{ anime.year }}</div>
@@ -26,12 +26,12 @@
         </div>
 
         <div class="seasons-element">
-         <div class="season-header">
+          <div class="season-header">
             <div class="season-title">Season</div>
-           <div class="season-functions">
+            <div class="season-functions">
               <button class="btn btn-add" (click)="addSeason = true"><i class="bi bi-plus-square"></i></button>
-           </div>
-         </div>
+            </div>
+          </div>
           @for (item of anime.seasons; track $index) {
             <div class="season">
               <div class="season-title"> {{ item.seasonName }}</div>
@@ -42,17 +42,17 @@
             {
               <div class="season-add">
                 <form (submit)="onAddSeason($event, anime)" [noValidate]="false">
-                 <input class="season-title" type="text" placeholder="Season Name" name="seasonName" required>
-
-                 <div>
+                  <input class="season-title" type="text" placeholder="Season Name" name="seasonName" required>
+                  <div>
                     <input class="season-episodes" type="number" min="1" placeholder="Quantity of Episodes" name="quantityEpisodes" required>
-                  <button class="btn btn-save" type="submit"><i class="bi bi-send-plus"></i></button>
-                </div>
+                    <button class="btn btn-save" type="submit"><i class="bi bi-send-plus"></i></button>
+                  </div>
                 </form>
               </div>
             }
         </div>
       </div>
+
         <div class="image-element">
           <div class="img">
             <img [src]="anime.image">
@@ -63,7 +63,60 @@
             </span>
           </div>
         </div>
+
+        @if(comments$ | async; as comments) {
+          <div class="comments-template">
+            <div class="comment-form">
+              <form (submit)="onAddComment($event, comments)" [noValidate]="false">
+                <textarea
+                placeholder="Add your comment..."
+                name="comment"
+                minlength="5"
+                maxlength="500"
+                required
+                ></textarea>
+                <span><button class="btn btn-save" type="submit"><i class="bi bi-send"></i></button></span>
+              </form>
+            </div>
+            <div class="comment-element">
+              @for(comment of comments; track comment.id) {
+                <div class="comment">
+                  <div class="comment-header">
+                    <div class="comment-user">{{ user.username }}</div>
+                    <input
+                      class="comment-text"
+                      type="text"
+                      name="comment"
+                      [value]="comment.commentText"
+
+                    />
+
+
+                    <div class="comment-date">{{comment.updated | date: 'longDate' }}</div>
+                  </div>
+                  <div class="comment-functions">
+                    <button class="btn btn-delete" (click)="onDeleteComment(comment,comments)"><i class="bi bi-trash"></i></button>
+                    <button class="btn btn-edit" (click)="onEditComment(comment)"><i class="bi bi-pencil"></i></button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
     </div>
   </div>
+
+  <dialog #modal>
+    <div class="modal-header">
+      <p>Are you sure you want to delete this anime?</p>
+      <button (click)="onCloseModal()"><i class="bi bi-x"></i></button>
+    </div>
+    <div class="modal-footer">
+      <button (click)="onCloseModal()">Cancel</button>
+      <button (click)="onDelete()">Confirm</button>
+    </div>
+  </dialog>
+
+
 
 }

@@ -1,13 +1,14 @@
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import {
   AddSeasonDTO,
   AnimeDTO,
   AnimesDTO,
   GenreDTO,
 } from '../interfaces/anime-dto.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AnimeService {
   private http = inject(HttpClient);
   private urlApi = `http://localhost:5188`;
   private token = this.userService.readonlyUserInfo;
+  private router = inject(Router);
 
   onPostAnime(anime: FormData): Observable<any> {
     const headers = new HttpHeaders({
@@ -63,7 +65,6 @@ export class AnimeService {
         })
       );
   }
-
   onGetGenres(): Observable<GenreDTO[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
@@ -78,6 +79,23 @@ export class AnimeService {
         return [] as GenreDTO[];
       })
     );
+  }
+
+  onDelete(animeId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http
+      .delete<any>(`${this.urlApi}/api/anime/${animeId}`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          if (!response.message) return;
+          this.router.navigate(['/auth']);
+        })
+      );
   }
 
   onFavorite(favoriteState: boolean, animeId: string): Observable<any> {
