@@ -18,11 +18,12 @@ import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { FormatJSONtoStringPipe } from '../../../core/pipes/format-jsonto-string.pipe';
 import { CommentsService } from '../../../core/services/comments.service';
 import { UserDTO } from '../../../core/interfaces/user-dto.interface';
+import { CommentComponent } from './components/comment/comment.component';
 
 @Component({
   selector: 'app-anime',
   standalone: true,
-  imports: [AsyncPipe, FormatJSONtoStringPipe, NgClass, DatePipe],
+  imports: [AsyncPipe, FormatJSONtoStringPipe, NgClass, CommentComponent],
   templateUrl: './anime.component.html',
   styleUrl: './anime.component.scss',
 })
@@ -123,7 +124,7 @@ export class AnimeComponent implements OnInit {
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    const comment = formData.get('comment');
+    let comment = formData.get('comment');
 
     this.commentService
       .onPostComment({
@@ -139,13 +140,21 @@ export class AnimeComponent implements OnInit {
             .subscribe({
               next: (response) => {
                 comments.push(response);
+                form.reset();
               },
             });
         },
       });
   }
-
-  onEditComment(comment: any): void {}
+  onEditComment(event: Event, comment: any, comments: any[]): void {
+    var data = { commentText: event.toString() };
+    this.commentService.onPutComment(data, comment.id).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        console.error('Failed to edit comment:', err);
+      },
+    });
+  }
   onDeleteComment(comment: any, comments: any[]): void {
     this.commentService.onDeleteComment(comment.id).subscribe({
       next: () => {

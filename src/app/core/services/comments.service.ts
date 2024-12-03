@@ -74,12 +74,12 @@ export class CommentsService {
     );
   }
 
-  onPutComment(comment: string, id: string): Observable<any> {
+  onPutComment(data: { commentText: string }, id: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
     });
 
-    return this.http.put<any>(`${this.urlApi}/api/comment/${id}`, comment, {
+    return this.http.put<any>(`${this.urlApi}/api/comment/${id}`, data, {
       headers,
     });
   }

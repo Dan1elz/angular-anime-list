@@ -261,72 +261,10 @@
           width: 100%;
           display: grid;
           margin-top: 2rem;
-
-          .comment {
-            display: flex;
-            padding: 10px 20px;
-            box-shadow: var(--shadow);
-            justify-content: space-between;
-            background: var(--bg-secondary);
-
-            .comment-elements {
-              gap: 10px;
-              width: 100%;
-
-              .comment-user {
-                display: flex;
-                align-items: center;
-                font-weight: 600;
-
-                span {
-                  width: 30px;
-                  height: 30px;
-                  display: grid;
-                  font-size: 25px;
-                  margin-right: 10px;
-                  border-radius: 7px;
-                  place-items: center;
-                  box-shadow: var(--shadow);
-                  background-color: var(--bg-primary);
-                }
-                .comment-date {
-                  font-size: 12px;
-                  font-weight: 300;
-                }
-              }
-              .comment-text {
-                  width: 100%;
-                  border: none;
-                  resize: none;
-                  outline: none;
-                  padding: 10px;
-                  font-size: 16px;
-                  font-weight: 400;
-                  overflow: hidden;
-                  margin: 10px 20px;
-                  border-radius: 7px;
-                  color: var(--font-color-dark);
-                  background-color: var(--bg-primary);
-
-
-                  &:disabled {
-                    background-color: var(--bg-secondary);
-                  }
-              }
-
-
-            }
-          }
         }
       }
-
-
-
-
-
-
-      }
     }
+  }
   dialog {
     top: 50%;
     left: 50%;

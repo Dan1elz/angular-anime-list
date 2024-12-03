@@ -1,0 +1,26 @@
+<div class="comment">
+  <form class="comment-elements" (submit)="onSubmid($event)" [noValidate]="false">
+      <div class="comment-user">
+        <span><i class="bi bi-person icon"></i></span>
+        {{ user().username }}<div class="comment-date">, {{comment().updated | date: 'MMM dd, y' }}</div>
+      </div>
+
+      <textarea
+        #textarea
+        class="comment-text"
+        type="text"
+        name="comment"
+        [value]="comment().commentText"
+        [disabled]="disabled()"
+        (input)="onSetHeightTextArea($event)"
+      ></textarea>
+      <button class="submit" [style.display]="disabled() ? 'none' : 'block'" type="submit"><i class="bi bi-arrow-up-circle-fill"></i></button>
+
+
+  </form>
+  <div class="comment-functions">
+    <button class="btn btn-delete" (click)="onDelete($event)"><i class="bi bi-trash"></i></button>
+    <button class="btn btn-edit" (click)="onEdit($event)"><i class="bi bi-pencil"></i></button>
+  </div>
+</div>
+

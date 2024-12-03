@@ -80,27 +80,12 @@
             </div>
             <div class="comment-element">
               @for(comment of comments; track comment.id) {
-                <div class="comment">
-                  <div class="comment-elements">
-                      <div class="comment-user">
-                        <span><i class="bi bi-person icon"></i></span>
-                        {{ user.username }}<div class="comment-date">, {{comment.updated | date: 'MMM dd, y' }}</div>
-                      </div>
-                      <textarea
-                        class="comment-text"
-                        type="text"
-                        name="comment"
-                        [value]="comment.commentText"
-                        [disabled]="false"
-                      ></textarea>
-
-                    </div>
-
-                  <div class="comment-functions">
-                    <button class="btn btn-delete" (click)="onDeleteComment(comment,comments)"><i class="bi bi-trash"></i></button>
-                    <button class="btn btn-edit" (click)="onEditComment(comment)"><i class="bi bi-pencil"></i></button>
-                  </div>
-                </div>
+                <app-comment
+                  [comment]="comment"
+                  [user]="user"
+                  (delete)="onDeleteComment(comment, comments)"
+                  (edit)="onEditComment($event, comment, comments)"
+                />
               }
             </div>
           </div>
