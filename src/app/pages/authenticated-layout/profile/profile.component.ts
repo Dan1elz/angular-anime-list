@@ -17,7 +17,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [DataItemComponent, AsyncPipe, DatePipe],
+  imports: [DataItemComponent, AsyncPipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [DatePipe],
