@@ -3,16 +3,16 @@
   <app-carousel-hero-highlight
   [data] = "animes"/>
 
+  <app-carousel-cards
+  [header]="'Trending'"
+  [link]="'trending'"
+  [data] = animes
+  (favoriteEmit)="onFavorite($event , animes)" />
 
-  <!-- <app-carousel-cards
-    [header]="'Animes'"
-    [link]="'animes'"
-    [data]="animes$"
-    /> -->
+  <app-grid-cards
+  [header]="'Trending'"
+  [link]="'trending'"
+  [data] = animes
+  (favoriteEmit)="onFavorite($event , animes)" />
 
-
-
-  @for (anime of animes; track anime.id) {
-
-  }
 }

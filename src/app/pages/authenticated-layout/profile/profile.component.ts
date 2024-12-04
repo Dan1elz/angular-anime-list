@@ -25,6 +25,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 export class ProfileComponent implements OnInit {
   private service = inject(UserService);
   user$!: Observable<UserDTO>;
+
   @ViewChild('modal') modal!: ElementRef;
 
   ngOnInit(): void {

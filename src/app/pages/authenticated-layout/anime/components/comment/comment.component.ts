@@ -36,8 +36,8 @@ export class CommentComponent implements AfterViewInit {
 
   private adjustHeight(): void {
     const textareaElement = this.textarea.nativeElement;
-    textareaElement.style.height = 'auto'; // Reseta altura para calcular corretamente
-    textareaElement.style.height = `${textareaElement.scrollHeight}px`; // Ajusta para o tamanho do conteúdo
+    textareaElement.style.height = 'auto';
+    textareaElement.style.height = `${textareaElement.scrollHeight}px`;
   }
   onEdit(event: Event): void {
     this.disabled.set(!this.disabled());

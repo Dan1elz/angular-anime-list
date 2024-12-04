@@ -32,6 +32,7 @@ export class AnimeComponent implements OnInit {
   private readonly commentService = inject(CommentsService);
   private readonly userService = inject(UserService);
   private readonly route = inject(ActivatedRoute);
+
   anime$!: Observable<AnimeDTO>;
   comments$!: Observable<any[]>;
   animeId: string = '';
