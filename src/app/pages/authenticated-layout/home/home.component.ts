@@ -1,6 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AnimeService } from '../../../core/services/anime.service';
-import { AnimesDTO } from '../../../core/interfaces/anime-dto.interface';
+import {
+  AnimesDTO,
+  ResponseGetDTO,
+} from '../../../core/interfaces/anime-dto.interface';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { CarouselCardsComponent } from '../../../components/carousel-cards/carousel-cards.component';
@@ -21,7 +24,7 @@ import { CarouselHeroHighlightComponent } from '../../../components/carousel-her
 })
 export class HomeComponent implements OnInit {
   private readonly service = inject(AnimeService);
-  animes$!: Observable<AnimesDTO[]>;
+  animes$!: Observable<ResponseGetDTO>;
 
   ngOnInit(): void {
     this.animes$ = this.service.onGetAnimes();

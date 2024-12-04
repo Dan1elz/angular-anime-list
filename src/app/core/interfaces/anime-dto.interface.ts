@@ -44,3 +44,7 @@ export interface AddSeasonDTO {
 interface Genre {
   name: string;
 }
+export interface ResponseGetDTO {
+  animes: AnimesDTO[];
+  total: number;
+}

@@ -1,18 +1,19 @@
-@if(animes$ | async; as animes)
+@if(animes$ | async; as data)
 {
+
   <app-carousel-hero-highlight
-  [data] = "animes"/>
+  [data] = "data.animes"/>
 
   <app-carousel-cards
   header = "Favorites"
   link = "/auth/favorites"
-  [data] = animes
-  (favoriteEmit)="onFavorite($event , animes)" />
+  [data] = data.animes
+  (favoriteEmit)="onFavorite($event , data.animes)" />
 
   <app-grid-cards
   header = "Favorites"
   link = "/favorites"
-  [data] = animes
-  (favoriteEmit)="onFavorite($event , animes)" />
+  [data] = data.animes
+  (favoriteEmit)="onFavorite($event , data.animes)" />
 
 }

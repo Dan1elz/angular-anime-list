@@ -1,0 +1,8 @@
+@if(animes$ | async; as data)
+{
+<app-grid-cards
+  header = "Favorites"
+  [data] = data.animes
+  (favoriteEmit)="onRemoveFavorite($event , data.animes)" />
+
+}

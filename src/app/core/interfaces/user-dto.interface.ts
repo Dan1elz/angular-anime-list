@@ -20,7 +20,7 @@ export interface UserDTO {
   lastname: string;
   username?: string;
   email: string;
-  quantityWatched?: number;
+  amount?: number;
   created: string;
   updated: string;
 }

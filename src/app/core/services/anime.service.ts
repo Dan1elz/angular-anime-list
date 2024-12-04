@@ -7,6 +7,7 @@ import {
   AnimeDTO,
   AnimesDTO,
   GenreDTO,
+  ResponseGetDTO,
 } from '../interfaces/anime-dto.interface';
 import { Router } from '@angular/router';
 
@@ -30,23 +31,53 @@ export class AnimeService {
     }
     return this.http.post<any>(`${this.urlApi}/api/anime`, anime, { headers });
   }
-  onGetAnimes(): Observable<AnimesDTO[]> {
+  onGetAnimes(): Observable<ResponseGetDTO> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
     });
-    return this.http.get<any>(`${this.urlApi}/api/anime`, { headers }).pipe(
-      map((response: any) => {
-        if (response.data) {
-          var animes: AnimesDTO[] = response.data.map(
-            (item: any) => this.mapAnimesData(item) as AnimesDTO
-          );
+    return this.http
+      .get<any>(`${this.urlApi}/api/anime/0/20/`, { headers })
+      .pipe(
+        map((response: any) => {
           console.log(response);
-          return animes;
-        }
-        return [] as AnimesDTO[];
-      })
-    );
+          if (response.data) {
+            var animes: AnimesDTO[] = response.data.map(
+              (item: any) => this.mapAnimesData(item) as AnimesDTO
+            );
+            const total = response.total;
+            return { animes, total };
+          }
+          return { animes: [], total: 0 };
+        })
+      );
   }
+
+  onGetAnimesFavorited(
+    offset: number,
+    limit: number
+  ): Observable<ResponseGetDTO> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token()}`,
+    });
+    return this.http
+      .get<any>(`${this.urlApi}/api/anime/favorite/${offset}/${limit}`, {
+        headers,
+      })
+      .pipe(
+        map((response: any) => {
+          console.log(response);
+          if (response.data) {
+            var animes: AnimesDTO[] = response.data.map(
+              (item: any) => this.mapAnimesData(item) as AnimesDTO
+            );
+            const total = response.total;
+            return { animes, total };
+          }
+          return { animes: [], total: 0 };
+        })
+      );
+  }
+
   onGetAnime(id: string): Observable<AnimeDTO> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,

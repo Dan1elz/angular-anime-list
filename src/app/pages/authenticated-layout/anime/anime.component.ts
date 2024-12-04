@@ -57,7 +57,6 @@ export class AnimeComponent implements OnInit {
       this.comments$ = this.commentService.onGetComments(this.animeId);
     });
   }
-
   onGetStarIcons(rating: number): string[] {
     const stars: string[] = [];
     const fullStars = Math.floor(rating / 2);
@@ -70,7 +69,6 @@ export class AnimeComponent implements OnInit {
 
     return stars;
   }
-
   onQuantity(seasons: SeasonsDTO[]): number {
     return (
       seasons.reduce((acc, season) => acc + season.quantityEpisodes, 0) ?? 0
@@ -114,8 +112,8 @@ export class AnimeComponent implements OnInit {
     };
 
     this.service.onAddSeason(season).subscribe({
-      next: () => {
-        window.location.reload();
+      next: (res) => {
+        console.log('Season added successfully:', res);
       },
     });
   }
