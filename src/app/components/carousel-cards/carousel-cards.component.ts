@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import {
   Component,
   inject,
@@ -13,8 +14,33 @@ import { CardComponent } from '../card/card.component';
 @Component({
   selector: 'app-carousel-cards',
   standalone: true,
-  imports: [NgIf, CardComponent],
-  templateUrl: './carousel-cards.component.html',
+  imports: [NgIf, CardComponent, RouterModule],
+  template: `
+    <div class="carousel-template">
+      <button class="arrow" (click)="onLeft()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <button class="arrow" (click)="onRight()">
+        <i class="bi bi-arrow-right"></i>
+      </button>
+
+      <div class="carousel-header">
+        <p>{{ header() }}</p>
+        <a *ngIf="link()" [routerLink]="link()">View All</a>
+      </div>
+
+      <div class="carousel-article">
+        @for(anime of data().slice(0, 21); track $index) {
+        <app-card
+          [anime]="anime"
+          [style.transform]="'TranslateX(-' + screen + 'px)'"
+          (favorite)="onFavorite(anime.id, anime.favoriteState)"
+        />
+        }
+      </div>
+      <div class="line"><div></div></div>
+    </div>
+  `,
   styleUrl: './carousel-cards.component.scss',
 })
 export class CarouselCardsComponent implements OnInit {

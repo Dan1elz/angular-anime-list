@@ -1,3 +1,4 @@
+import { RouterLink, RouterModule } from '@angular/router';
 import { Component, input, output } from '@angular/core';
 import { AnimesDTO } from '../../core/interfaces/anime-dto.interface';
 import { NgIf } from '@angular/common';
@@ -6,12 +7,12 @@ import { CardComponent } from '../card/card.component';
 @Component({
   selector: 'app-grid-cards',
   standalone: true,
-  imports: [NgIf, CardComponent],
+  imports: [NgIf, CardComponent, RouterModule],
   template: `
     <div class="grid-template">
       <div class="grid-header">
         <p>{{ header() }}</p>
-        <a *ngIf="link()" href="/{{ link() }}">View All</a>
+        <a *ngIf="link()" [routerLink]="link()">View All</a>
       </div>
 
       <div class="grid-article">
@@ -22,9 +23,8 @@ import { CardComponent } from '../card/card.component';
         />
         }
       </div>
+      <div class="line"><div></div></div>
     </div>
-
-    <div class="line"><div></div></div>
   `,
   styleUrl: './grid-cards.component.scss',
 })

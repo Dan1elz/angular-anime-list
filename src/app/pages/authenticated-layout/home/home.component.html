@@ -4,14 +4,14 @@
   [data] = "animes"/>
 
   <app-carousel-cards
-  [header]="'Trending'"
-  [link]="'trending'"
+  header = "Favorites"
+  link = "/auth/favorites"
   [data] = animes
   (favoriteEmit)="onFavorite($event , animes)" />
 
   <app-grid-cards
-  [header]="'Trending'"
-  [link]="'trending'"
+  header = "Favorites"
+  link = "/favorites"
   [data] = animes
   (favoriteEmit)="onFavorite($event , animes)" />
 

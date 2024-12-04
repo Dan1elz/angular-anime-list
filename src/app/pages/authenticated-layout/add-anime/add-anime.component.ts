@@ -116,9 +116,7 @@ export class AddAnimeComponent implements OnInit {
       JSON.stringify(this.anime.alternativeTitle)
     );
     formData.append('Year', JSON.stringify(this.anime.year));
-
     formData.append('Image', this.anime.imageFile as File);
-
     formData.append('Description', JSON.stringify(this.anime.description));
     formData.append('Lenguage', JSON.stringify(this.anime.lenguage));
     formData.append('Rating', JSON.stringify(this.anime.rating));

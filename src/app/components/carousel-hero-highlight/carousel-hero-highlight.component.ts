@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { FormatJSONtoStringPipe } from './../../core/pipes/format-jsonto-string.pipe';
 import { isPlatformBrowser } from '@angular/common';
 import { AnimesDTO } from './../../core/interfaces/anime-dto.interface';
@@ -6,7 +7,7 @@ import { Component, inject, input, PLATFORM_ID } from '@angular/core';
 @Component({
   selector: 'app-carousel-hero-highlight',
   standalone: true,
-  imports: [FormatJSONtoStringPipe],
+  imports: [FormatJSONtoStringPipe, RouterModule],
   template: `
     <div class="content">
       @for (anime of onSize(data()); track anime.id) {
@@ -14,7 +15,7 @@ import { Component, inject, input, PLATFORM_ID } from '@angular/core';
         <div class="hero-image">
           <img [src]="anime.image" alt="anime.title" />
         </div>
-        <a href="/auth/anime/{{ anime.id | formatJSONtoString }}">
+        <a [routerLink]="['/auth/anime', anime.id | formatJSONtoString]">
           <div class="hero-content">
             <div class="texts">
               <div class="hero-title">

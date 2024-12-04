@@ -68,8 +68,7 @@
       </div>
 
       <div class="chechbox-holder">
-        @if(genres$ | async; as genres)
-        {
+        @if(genres$ | async; as genres) {
           @for (genre of genres; track genre.id) {
             <div class="">
               <input
@@ -85,7 +84,6 @@
         }
       </div>
     </div>
-
 
     <div class="image-element">
       <img [src]="anime.image" alt="Anime Image">
@@ -109,13 +107,7 @@
         [(ngModel)]="anime.imageFile"
         (change)="onFileChange($event)"
       >
-
-
-
     </div>
-
-
-
 
     <button type="submit">Add Anime</button>
   </div>

@@ -23,6 +23,7 @@ export const routes: Routes = [
       { path: '', redirectTo: '/auth/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'favorites', component: AddAnimeComponent },
       { path: 'add-anime', component: AddAnimeComponent },
       { path: 'settings', component: AddAnimeComponent },
       { path: 'anime/:id', component: AnimeComponent },
