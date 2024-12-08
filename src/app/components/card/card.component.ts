@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
   imports: [NgClass, FormatJSONtoStringPipe, RouterModule],
   template: `
     <div class="card">
+      @if (favoriteValidate()) {
       <button
         class="heart"
         type="button"
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
         @if (anime().favoriteState) { <i class="bi bi-heart-fill"></i> } @else {
         <i class="bi bi-heart"></i> }
       </button>
+      }
       <a [routerLink]="['/auth/anime', anime().id | formatJSONtoString]">
         <img [src]="anime().image" alt="anime image" />
         <div class="title">
@@ -49,6 +51,7 @@ import { RouterModule } from '@angular/router';
 })
 export class CardComponent {
   anime = input.required<AnimesDTO>();
+  favoriteValidate = input<boolean>(true);
   favorite = output();
 
   onSeasons(seasons: SeasonsDTO[]): number {

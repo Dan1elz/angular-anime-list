@@ -31,12 +31,12 @@ export class AnimeService {
     }
     return this.http.post<any>(`${this.urlApi}/api/anime`, anime, { headers });
   }
-  onGetAnimes(): Observable<ResponseGetDTO> {
+  onGetAnimes(offset: number, limit: number): Observable<ResponseGetDTO> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
     });
     return this.http
-      .get<any>(`${this.urlApi}/api/anime/0/20/`, { headers })
+      .get<any>(`${this.urlApi}/api/anime/${offset}/${limit}`, { headers })
       .pipe(
         map((response: any) => {
           console.log(response);

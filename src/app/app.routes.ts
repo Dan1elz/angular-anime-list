@@ -8,6 +8,7 @@ import { AddAnimeComponent } from './pages/authenticated-layout/add-anime/add-an
 import { ProfileComponent } from './pages/authenticated-layout/profile/profile.component';
 import { AnimeComponent } from './pages/authenticated-layout/anime/anime.component';
 import { FavoriteComponent } from './pages/authenticated-layout/favorite/favorite.component';
+import { ViewAllComponent } from './pages/authenticated-layout/view-all/view-all.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
@@ -25,9 +26,10 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'favorites', component: FavoriteComponent },
+      { path: 'view-all', component: ViewAllComponent },
       { path: 'add-anime', component: AddAnimeComponent },
-      { path: 'settings', component: AddAnimeComponent },
       { path: 'anime/:id', component: AnimeComponent },
+      { path: 'settings', component: AddAnimeComponent },
     ],
   },
 ];

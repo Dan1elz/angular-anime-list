@@ -1,10 +1,9 @@
 @if(animes$ | async; as data)
 {
 <app-grid-cards
-  header = "Favorites"
+  header = "View All"
   [data] = data.animes
   (favoriteEmit)="onRemoveFavorite($event , data.animes)" />
-
 
 <app-paginator
   [maximumPerPage] = "limit"

@@ -26,7 +26,7 @@ import { CardComponent } from '../card/card.component';
 
       <div class="carousel-header">
         <p>{{ header() }}</p>
-        <a *ngIf="link()" [routerLink]="link()">View All</a>
+        <a *ngIf="link()" [routerLink]="link()">View More</a>
       </div>
 
       <div class="carousel-article">
@@ -34,6 +34,7 @@ import { CardComponent } from '../card/card.component';
         <app-card
           [anime]="anime"
           [style.transform]="'TranslateX(-' + screen + 'px)'"
+          [favoriteValidate]="favoriteValidate()"
           (favorite)="onFavorite(anime.id, anime.favoriteState)"
         />
         }
@@ -49,6 +50,7 @@ export class CarouselCardsComponent implements OnInit {
   link = input<string>();
   data = input.required<AnimesDTO[]>();
   favoriteEmit = output<any>();
+  favoriteValidate = input<boolean>(true);
 
   screen = 0;
   count = 1;

@@ -1,34 +1,36 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, signal } from '@angular/core';
+import { AnimeService } from '../../../core/services/anime.service';
 import {
   AnimesDTO,
   ResponseGetDTO,
 } from '../../../core/interfaces/anime-dto.interface';
-import { AnimeService } from '../../../core/services/anime.service';
+import { Observable } from 'rxjs';
 import { GridCardsComponent } from '../../../components/grid-cards/grid-cards.component';
 import { AsyncPipe } from '@angular/common';
 import { PaginatorComponent } from '../../../components/paginator/paginator.component';
 
 @Component({
-  selector: 'app-favorite',
+  selector: 'app-view-all',
   standalone: true,
   imports: [GridCardsComponent, AsyncPipe, PaginatorComponent],
-  templateUrl: './favorite.component.html',
-  styleUrl: './favorite.component.scss',
+  templateUrl: './view-all.component.html',
+  styleUrl: './view-all.component.scss',
 })
-export class FavoriteComponent implements OnInit {
+export class ViewAllComponent {
   private readonly service = inject(AnimeService);
   animes$!: Observable<ResponseGetDTO>;
   offset = signal(0);
-  limit = 21;
+  limit = 14;
 
   ngOnInit(): void {
-    this.animes$ = this.service.onGetAnimesFavorited(this.offset(), this.limit);
+    this.animes$ = this.service.onGetAnimes(this.offset(), this.limit);
   }
 
   onPageChange(event: number): void {
     this.offset.set((event - 1) * this.limit);
-    this.animes$ = this.service.onGetAnimesFavorited(this.offset(), this.limit);
+    console.log('offset', this.offset());
+
+    this.animes$ = this.service.onGetAnimes(this.offset(), this.limit);
   }
 
   onRemoveFavorite(

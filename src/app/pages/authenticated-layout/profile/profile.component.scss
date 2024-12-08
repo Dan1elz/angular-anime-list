@@ -1,6 +1,7 @@
 :host {
   display: flex;
   justify-content: center;
+  min-height: calc(100vh - 90px);
   width: 100%;
   .grid-template {
     width: 100%;

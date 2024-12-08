@@ -14,7 +14,7 @@ import {
 } from '../../../core/interfaces/anime-dto.interface';
 import { Observable, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { FormatJSONtoStringPipe } from '../../../core/pipes/format-jsonto-string.pipe';
 import { CommentsService } from '../../../core/services/comments.service';
 import { UserDTO } from '../../../core/interfaces/user-dto.interface';

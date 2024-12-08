@@ -4,16 +4,24 @@
   <app-carousel-hero-highlight
   [data] = "data.animes"/>
 
-  <app-carousel-cards
-  header = "Favorites"
-  link = "/auth/favorites"
-  [data] = data.animes
-  (favoriteEmit)="onFavorite($event , data.animes)" />
+
+  @if(favorites$ | async; as favorites) {
+    <app-carousel-cards
+      header = "Favorites"
+      link = "/auth/favorites"
+      [data] = favorites.animes
+      [favoriteValidate] = "false"
+      (favoriteEmit)="onFavorite($event , data.animes)" />
+  }
+
+
+
 
   <app-grid-cards
-  header = "Favorites"
-  link = "/favorites"
+  header = "View All"
+  link = "/auth/view-all"
   [data] = data.animes
+  [favoriteValidate] = "false"
   (favoriteEmit)="onFavorite($event , data.animes)" />
 
 }

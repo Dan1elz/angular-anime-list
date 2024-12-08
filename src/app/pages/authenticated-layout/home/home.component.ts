@@ -25,9 +25,10 @@ import { CarouselHeroHighlightComponent } from '../../../components/carousel-her
 export class HomeComponent implements OnInit {
   private readonly service = inject(AnimeService);
   animes$!: Observable<ResponseGetDTO>;
-
+  favorites$!: Observable<ResponseGetDTO>;
   ngOnInit(): void {
-    this.animes$ = this.service.onGetAnimes();
+    this.animes$ = this.service.onGetAnimes(0, 14);
+    this.favorites$ = this.service.onGetAnimesFavorited(0, 21);
   }
 
   onFavorite(

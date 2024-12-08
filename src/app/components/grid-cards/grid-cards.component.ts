@@ -12,13 +12,14 @@ import { CardComponent } from '../card/card.component';
     <div class="grid-template">
       <div class="grid-header">
         <p>{{ header() }}</p>
-        <a *ngIf="link()" [routerLink]="link()">View All</a>
+        <a *ngIf="link()" [routerLink]="link()">View More</a>
       </div>
 
       <div class="grid-article">
-        @for(anime of data().slice(0, 14); track $index) {
+        @for(anime of data(); track $index) {
         <app-card
           [anime]="anime"
+          [favoriteValidate]="favoriteValidate()"
           (favorite)="onFavorite(anime.id, anime.favoriteState)"
         />
         }
@@ -33,6 +34,7 @@ export class GridCardsComponent {
   link = input<string>();
   data = input.required<AnimesDTO[]>();
   favoriteEmit = output<any>();
+  favoriteValidate = input<boolean>(true);
 
   onFavorite(id: string, favoriteState: boolean): void {
     this.favoriteEmit.emit({ id, favoriteState });

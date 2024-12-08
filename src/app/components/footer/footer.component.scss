@@ -1,0 +1,33 @@
+:host {
+  background: var(--bg-secondary);
+  padding: 30px 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-shadow: var(--shadow);
+
+  .functions,  .social-midia {
+    display: flex;
+    gap: 20px;
+
+    a {
+      color: var(--font-color-dark);
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+
+      &:hover {
+        text-decoration:underline;
+      }
+    }
+  }
+
+  .line { margin: 15px 0;}
+
+  .social-midia {
+    a {
+      font-size: 24px;
+    }
+  }
+
+}
