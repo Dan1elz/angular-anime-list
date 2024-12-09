@@ -10,6 +10,7 @@ import {
   ResponseGetDTO,
 } from '../interfaces/anime-dto.interface';
 import { Router } from '@angular/router';
+import { AnimeMapperDTO } from '../mappers/animeMapperDTO.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class AnimeService {
   private urlApi = `http://localhost:5188`;
   private token = this.userService.readonlyUserInfo;
   private router = inject(Router);
+  private animeMapperDTO = inject(AnimeMapperDTO);
 
   onPostAnime(anime: FormData): Observable<any> {
     const headers = new HttpHeaders({
@@ -42,33 +44,7 @@ export class AnimeService {
           console.log(response);
           if (response.data) {
             var animes: AnimesDTO[] = response.data.map(
-              (item: any) => this.mapAnimesData(item) as AnimesDTO
-            );
-            const total = response.total;
-            return { animes, total };
-          }
-          return { animes: [], total: 0 };
-        })
-      );
-  }
-
-  onGetAnimesFavorited(
-    offset: number,
-    limit: number
-  ): Observable<ResponseGetDTO> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-    return this.http
-      .get<any>(`${this.urlApi}/api/anime/favorite/${offset}/${limit}`, {
-        headers,
-      })
-      .pipe(
-        map((response: any) => {
-          console.log(response);
-          if (response.data) {
-            var animes: AnimesDTO[] = response.data.map(
-              (item: any) => this.mapAnimesData(item) as AnimesDTO
+              (item: any) => this.animeMapperDTO.mapAnimesDTO(item) as AnimesDTO
             );
             const total = response.total;
             return { animes, total };
@@ -88,7 +64,9 @@ export class AnimeService {
         map((response: any) => {
           if (response.data) {
             console.log(response.data);
-            var anime: AnimeDTO = this.mapAnimeData(response.data);
+            var anime: AnimeDTO = this.animeMapperDTO.mapAnimeDTO(
+              response.data
+            );
 
             return anime;
           }
@@ -129,17 +107,6 @@ export class AnimeService {
       );
   }
 
-  onFavorite(favoriteState: boolean, animeId: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-
-    return this.http.put<any>(
-      `${this.urlApi}/api/anime/favorite/${animeId}`,
-      { favoriteState },
-      { headers }
-    );
-  }
   onWathed(watchedState: boolean, animeId: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
@@ -152,6 +119,18 @@ export class AnimeService {
     );
   }
 
+  onFavorite(favoriteState: boolean, animeId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http.put<any>(
+      `${this.urlApi}/api/anime/favorite/${animeId}`,
+      { favoriteState },
+      { headers }
+    );
+  }
+
   onAddSeason(season: AddSeasonDTO): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
@@ -160,35 +139,5 @@ export class AnimeService {
     return this.http.post<any>(`${this.urlApi}/api/season`, season, {
       headers,
     });
-  }
-  private mapAnimesData(data: any): AnimesDTO {
-    return {
-      id: data.anime.id,
-      title: data.anime.title,
-      alternativeTitle: data.anime.alternativeTitle,
-      year: data.anime.year,
-      image: data.animeUrl,
-      description: data.anime.description,
-      lenguage: data.anime.lenguage,
-      rating: data.anime.rating,
-      favoriteState: data.anime.favoriteState,
-      watchedState: data.anime.watchedState,
-      seasons: data.seasons,
-    };
-  }
-  private mapAnimeData(data: any): AnimeDTO {
-    return {
-      title: data.anime.title,
-      alternativeTitle: data.anime.alternativeTitle,
-      year: data.anime.year,
-      image: data.hostUrl,
-      description: data.anime.description,
-      lenguage: data.anime.lenguage,
-      rating: data.anime.rating,
-      favoriteState: data.anime.favoriteState,
-      watchedState: data.anime.watchedState,
-      genres: data.genres,
-      seasons: data.seasons ?? null,
-    };
   }
 }

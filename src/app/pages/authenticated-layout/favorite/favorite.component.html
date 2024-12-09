@@ -1,15 +1,12 @@
-@if(animes$ | async; as data)
+@if(data() !== null)
 {
 <app-grid-cards
   header = "Favorites"
-  [data] = data.animes
-  (favoriteEmit)="onRemoveFavorite($event , data.animes)" />
-
-
+  [data] = data()!.animes
+  (favoriteEmit)="onRemoveFavorite($event)" />
+}
 <app-paginator
   [maximumPerPage] = "limit"
-  [totalItems]="data.total"
+  [totalItems]="total()"
   (currentPageEvent)="onPageChange($event)"
 />
-
-}

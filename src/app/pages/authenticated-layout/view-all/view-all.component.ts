@@ -37,12 +37,12 @@ export class ViewAllComponent {
     event: { id: string; favoriteState: boolean },
     animes: AnimesDTO[]
   ): void {
-    this.service.onFavorite(!event.favoriteState, event.id).subscribe({
-      next: () => {
-        console.log('Favorite state updated');
-        const index = animes.findIndex((anime) => anime.id === event.id);
-        animes.splice(index, 1);
-      },
-    });
+    // this.service.onFavorite(!event.favoriteState, event.id).subscribe({
+    //   next: () => {
+    //     console.log('Favorite state updated');
+    //     const index = animes.findIndex((anime) => anime.id === event.id);
+    //     animes.splice(index, 1);
+    //   },
+    // });
   }
 }

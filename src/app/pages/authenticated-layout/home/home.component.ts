@@ -28,19 +28,19 @@ export class HomeComponent implements OnInit {
   favorites$!: Observable<ResponseGetDTO>;
   ngOnInit(): void {
     this.animes$ = this.service.onGetAnimes(0, 14);
-    this.favorites$ = this.service.onGetAnimesFavorited(0, 21);
+    // this.favorites$ = this.service.onGetAnimesFavorited(0, 21);
   }
 
   onFavorite(
     event: { id: string; favoriteState: boolean },
     animes: AnimesDTO[]
   ): void {
-    this.service.onFavorite(!event.favoriteState, event.id).subscribe({
-      next: () => {
-        console.log('Favorite state updated');
-        const index = animes.findIndex((anime) => anime.id === event.id);
-        animes[index].favoriteState = !event.favoriteState;
-      },
-    });
+    // this.service.onFavorite(!event.favoriteState, event.id).subscribe({
+    //   next: () => {
+    //     console.log('Favorite state updated');
+    //     const index = animes.findIndex((anime) => anime.id === event.id);
+    //     animes[index].favoriteState = !event.favoriteState;
+    //   },
+    // });
   }
 }
