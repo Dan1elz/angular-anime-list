@@ -5,10 +5,9 @@ import { NgIf } from '@angular/common';
 import { CardComponent } from '../card/card.component';
 
 @Component({
-  selector: 'app-grid-cards',
-  standalone: true,
-  imports: [NgIf, CardComponent, RouterModule],
-  template: `
+    selector: 'app-grid-cards',
+    imports: [NgIf, CardComponent, RouterModule],
+    template: `
     <div class="grid-template">
       <div class="grid-header">
         <p>{{ header() }}</p>
@@ -27,7 +26,7 @@ import { CardComponent } from '../card/card.component';
       <div class="line"><div></div></div>
     </div>
   `,
-  styleUrl: './grid-cards.component.scss',
+    styleUrl: './grid-cards.component.scss'
 })
 export class GridCardsComponent {
   header = input.required<string>();

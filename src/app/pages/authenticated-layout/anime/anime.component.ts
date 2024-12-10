@@ -21,11 +21,10 @@ import { UserDTO } from '../../../core/interfaces/user-dto.interface';
 import { CommentComponent } from './components/comment/comment.component';
 
 @Component({
-  selector: 'app-anime',
-  standalone: true,
-  imports: [AsyncPipe, FormatJSONtoStringPipe, NgClass, CommentComponent],
-  templateUrl: './anime.component.html',
-  styleUrl: './anime.component.scss',
+    selector: 'app-anime',
+    imports: [AsyncPipe, FormatJSONtoStringPipe, NgClass, CommentComponent],
+    templateUrl: './anime.component.html',
+    styleUrl: './anime.component.scss'
 })
 export class AnimeComponent implements OnInit {
   private readonly service = inject(AnimeService);

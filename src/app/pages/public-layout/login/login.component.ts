@@ -8,11 +8,10 @@ import {
 } from '../../../core/interfaces/user-dto.interface';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule, NgClass],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+    selector: 'app-login',
+    imports: [FormsModule, NgClass],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   private readonly service = inject(UserService);

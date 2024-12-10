@@ -5,11 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [FormsModule, NgClass],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+    selector: 'app-register',
+    imports: [FormsModule, NgClass],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
   private readonly service = inject(UserService);

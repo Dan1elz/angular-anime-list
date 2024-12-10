@@ -8,10 +8,9 @@ import { FormatJSONtoStringPipe } from '../../core/pipes/format-jsonto-string.pi
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-card',
-  standalone: true,
-  imports: [NgClass, FormatJSONtoStringPipe, RouterModule],
-  template: `
+    selector: 'app-card',
+    imports: [NgClass, FormatJSONtoStringPipe, RouterModule],
+    template: `
     <div class="card">
       @if (favoriteValidate()) {
       <button
@@ -47,7 +46,7 @@ import { RouterModule } from '@angular/router';
       </p>
     </div>
   `,
-  styleUrl: './card.component.scss',
+    styleUrl: './card.component.scss'
 })
 export class CardComponent {
   anime = input.required<AnimesDTO>();

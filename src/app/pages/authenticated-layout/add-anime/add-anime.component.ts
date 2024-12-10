@@ -7,11 +7,10 @@ import { GenreDTO } from '../../../core/interfaces/anime-dto.interface';
 import { AnimeService } from '../../../core/services/anime.service';
 
 @Component({
-  selector: 'app-add-anime',
-  standalone: true,
-  imports: [FormsModule, AsyncPipe, NgClass],
-  templateUrl: './add-anime.component.html',
-  styleUrl: './add-anime.component.scss',
+    selector: 'app-add-anime',
+    imports: [FormsModule, AsyncPipe, NgClass],
+    templateUrl: './add-anime.component.html',
+    styleUrl: './add-anime.component.scss'
 })
 export class AddAnimeComponent implements OnInit {
   private readonly service = inject(AnimeService);

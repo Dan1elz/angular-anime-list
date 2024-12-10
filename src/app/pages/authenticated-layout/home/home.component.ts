@@ -12,15 +12,14 @@ import { CarouselHeroHighlightComponent } from '../../../components/carousel-her
 import { FavoriteService } from '../../../core/services/favorite.service';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CarouselCardsComponent,
-    GridCardsComponent,
-    CarouselHeroHighlightComponent,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+    selector: 'app-home',
+    imports: [
+        CarouselCardsComponent,
+        GridCardsComponent,
+        CarouselHeroHighlightComponent,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   private readonly service = inject(AnimeService);

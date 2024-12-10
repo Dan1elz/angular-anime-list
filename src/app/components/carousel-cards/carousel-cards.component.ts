@@ -12,10 +12,9 @@ import { isPlatformBrowser, NgIf } from '@angular/common';
 import { CardComponent } from '../card/card.component';
 
 @Component({
-  selector: 'app-carousel-cards',
-  standalone: true,
-  imports: [NgIf, CardComponent, RouterModule],
-  template: `
+    selector: 'app-carousel-cards',
+    imports: [NgIf, CardComponent, RouterModule],
+    template: `
     <div class="carousel-template">
       <button class="arrow" (click)="onLeft()">
         <i class="bi bi-arrow-left"></i>
@@ -42,7 +41,7 @@ import { CardComponent } from '../card/card.component';
       <div class="line"><div></div></div>
     </div>
   `,
-  styleUrl: './carousel-cards.component.scss',
+    styleUrl: './carousel-cards.component.scss'
 })
 export class CarouselCardsComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);

@@ -11,11 +11,10 @@ import {
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-comment',
-  standalone: true,
-  imports: [DatePipe, CommonModule, FormsModule],
-  templateUrl: './comment.component.html',
-  styleUrl: './comment.component.scss',
+    selector: 'app-comment',
+    imports: [DatePipe, CommonModule, FormsModule],
+    templateUrl: './comment.component.html',
+    styleUrl: './comment.component.scss'
 })
 export class CommentComponent implements AfterViewInit {
   comment = input.required<any>();

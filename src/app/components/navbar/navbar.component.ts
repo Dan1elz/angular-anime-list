@@ -5,10 +5,9 @@ import { UserService } from '../../core/services/user.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [FormsModule, NgClass, RouterModule],
-  template: `
+    selector: 'app-navbar',
+    imports: [FormsModule, NgClass, RouterModule],
+    template: `
     <div class="nav-items-left">
       <a routerLink="/auth/home"
         ><i class="bi bi-house"></i><span>Home</span></a
@@ -50,7 +49,7 @@ import { RouterModule } from '@angular/router';
       </div>
     </div>
   `,
-  styleUrl: './navbar.component.scss',
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
   private readonly service = inject(UserService);

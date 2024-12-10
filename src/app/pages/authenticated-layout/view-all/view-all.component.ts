@@ -10,11 +10,10 @@ import { AsyncPipe } from '@angular/common';
 import { PaginatorComponent } from '../../../components/paginator/paginator.component';
 
 @Component({
-  selector: 'app-view-all',
-  standalone: true,
-  imports: [GridCardsComponent, PaginatorComponent],
-  templateUrl: './view-all.component.html',
-  styleUrl: './view-all.component.scss',
+    selector: 'app-view-all',
+    imports: [GridCardsComponent, PaginatorComponent],
+    templateUrl: './view-all.component.html',
+    styleUrl: './view-all.component.scss'
 })
 export class ViewAllComponent {
   private readonly service = inject(AnimeService);

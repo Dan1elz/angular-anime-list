@@ -1,10 +1,9 @@
 import { Component, effect, input, output, signal } from '@angular/core';
 
 @Component({
-  selector: 'app-paginator',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'app-paginator',
+    imports: [],
+    template: `
     @if(totalPages() > 1) {
     <div class="paginator">
       <button (click)="previousPage()" [disabled]="currentPage() === 1">
@@ -23,7 +22,7 @@ import { Component, effect, input, output, signal } from '@angular/core';
     </div>
     }
   `,
-  styleUrl: './paginator.component.scss',
+    styleUrl: './paginator.component.scss'
 })
 export class PaginatorComponent {
   currentPage = signal<number>(1); //page

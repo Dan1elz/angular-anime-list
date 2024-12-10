@@ -4,11 +4,10 @@ import { PaginatorComponent } from '../../../components/paginator/paginator.comp
 import { FavoriteService } from '../../../core/services/favorite.service';
 
 @Component({
-  selector: 'app-favorite',
-  standalone: true,
-  imports: [GridCardsComponent, PaginatorComponent],
-  templateUrl: './favorite.component.html',
-  styleUrl: './favorite.component.scss',
+    selector: 'app-favorite',
+    imports: [GridCardsComponent, PaginatorComponent],
+    templateUrl: './favorite.component.html',
+    styleUrl: './favorite.component.scss'
 })
 export class FavoriteComponent {
   private readonly service = inject(FavoriteService);

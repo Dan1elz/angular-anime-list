@@ -15,12 +15,11 @@ import { Observable } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [DataItemComponent, AsyncPipe],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss',
-  providers: [DatePipe],
+    selector: 'app-profile',
+    imports: [DataItemComponent, AsyncPipe],
+    templateUrl: './profile.component.html',
+    styleUrl: './profile.component.scss',
+    providers: [DatePipe]
 })
 export class ProfileComponent implements OnInit {
   private service = inject(UserService);

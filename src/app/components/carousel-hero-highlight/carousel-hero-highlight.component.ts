@@ -5,10 +5,9 @@ import { AnimesDTO } from './../../core/interfaces/anime-dto.interface';
 import { Component, inject, input, PLATFORM_ID } from '@angular/core';
 
 @Component({
-  selector: 'app-carousel-hero-highlight',
-  standalone: true,
-  imports: [FormatJSONtoStringPipe, RouterModule],
-  template: `
+    selector: 'app-carousel-hero-highlight',
+    imports: [FormatJSONtoStringPipe, RouterModule],
+    template: `
     <div class="content">
       @for (anime of onSize(data()); track anime.id) {
       <div class="hero-item">
@@ -31,7 +30,7 @@ import { Component, inject, input, PLATFORM_ID } from '@angular/core';
       }
     </div>
   `,
-  styleUrl: './carousel-hero-highlight.component.scss',
+    styleUrl: './carousel-hero-highlight.component.scss'
 })
 export class CarouselHeroHighlightComponent {
   private platformId = inject(PLATFORM_ID);

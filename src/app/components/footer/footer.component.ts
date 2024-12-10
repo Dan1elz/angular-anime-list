@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-footer',
-  standalone: true,
-  imports: [RouterModule],
-  template: `
+    selector: 'app-footer',
+    imports: [RouterModule],
+    template: `
     <div class="functions">
       <a routerLink="/auth/home">Home</a>
       <a href="#about">About</a>
@@ -24,6 +23,6 @@ import { RouterModule } from '@angular/router';
       ></a>
     </div>
   `,
-  styleUrl: './footer.component.scss',
+    styleUrl: './footer.component.scss'
 })
 export class FooterComponent {}

@@ -10,11 +10,10 @@ import {
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-data-item',
-  standalone: true,
-  imports: [NgClass, FormsModule],
-  templateUrl: './data-item.component.html',
-  styleUrl: './data-item.component.scss',
+    selector: 'app-data-item',
+    imports: [NgClass, FormsModule],
+    templateUrl: './data-item.component.html',
+    styleUrl: './data-item.component.scss'
 })
 export class DataItemComponent implements OnInit {
   title = input<string>();
