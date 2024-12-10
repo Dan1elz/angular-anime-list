@@ -1,27 +1,22 @@
-@if(animes$ | async; as data)
-{
-
+@if(animes() !== null) {
   <app-carousel-hero-highlight
-  [data] = "data.animes"/>
+  [data] = "animes()!.animes "/>
 
 
-  @if(favorites$ | async; as favorites) {
+  @if(favorites() !== null) {
     <app-carousel-cards
       header = "Favorites"
       link = "/auth/favorites"
-      [data] = favorites.animes
+      [data] = favorites()!.animes
       [favoriteValidate] = "false"
-      (favoriteEmit)="onFavorite($event , data.animes)" />
+    />
   }
-
-
-
 
   <app-grid-cards
   header = "View All"
   link = "/auth/view-all"
-  [data] = data.animes
+  [data] =animes()!.animes
   [favoriteValidate] = "false"
-  (favoriteEmit)="onFavorite($event , data.animes)" />
+  />
 
 }

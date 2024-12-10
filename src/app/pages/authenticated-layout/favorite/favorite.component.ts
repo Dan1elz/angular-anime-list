@@ -15,7 +15,7 @@ export class FavoriteComponent {
   data = this.service.animeFavorited;
   total = signal<number>(0);
   offset = signal<number>(0);
-  limit = 21;
+  limit = 14;
 
   constructor() {
     effect(() => {

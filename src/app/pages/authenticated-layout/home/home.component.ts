@@ -9,12 +9,12 @@ import { AsyncPipe } from '@angular/common';
 import { CarouselCardsComponent } from '../../../components/carousel-cards/carousel-cards.component';
 import { GridCardsComponent } from '../../../components/grid-cards/grid-cards.component';
 import { CarouselHeroHighlightComponent } from '../../../components/carousel-hero-highlight/carousel-hero-highlight.component';
+import { FavoriteService } from '../../../core/services/favorite.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    AsyncPipe,
     CarouselCardsComponent,
     GridCardsComponent,
     CarouselHeroHighlightComponent,
@@ -22,25 +22,14 @@ import { CarouselHeroHighlightComponent } from '../../../components/carousel-her
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   private readonly service = inject(AnimeService);
-  animes$!: Observable<ResponseGetDTO>;
-  favorites$!: Observable<ResponseGetDTO>;
-  ngOnInit(): void {
-    this.animes$ = this.service.onGetAnimes(0, 14);
-    // this.favorites$ = this.service.onGetAnimesFavorited(0, 21);
-  }
+  private readonly favoriteService = inject(FavoriteService);
+  animes = this.service.animes;
+  favorites = this.favoriteService.animeFavorited;
 
-  onFavorite(
-    event: { id: string; favoriteState: boolean },
-    animes: AnimesDTO[]
-  ): void {
-    // this.service.onFavorite(!event.favoriteState, event.id).subscribe({
-    //   next: () => {
-    //     console.log('Favorite state updated');
-    //     const index = animes.findIndex((anime) => anime.id === event.id);
-    //     animes[index].favoriteState = !event.favoriteState;
-    //   },
-    // });
+  constructor() {
+    this.service.onGetAnimes(0, 14);
+    this.favoriteService.onGetAnimesFavorited(0, 21);
   }
 }

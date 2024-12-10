@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { AnimeService } from '../../../core/services/anime.service';
 import {
   AnimesDTO,
@@ -12,37 +12,37 @@ import { PaginatorComponent } from '../../../components/paginator/paginator.comp
 @Component({
   selector: 'app-view-all',
   standalone: true,
-  imports: [GridCardsComponent, AsyncPipe, PaginatorComponent],
+  imports: [GridCardsComponent, PaginatorComponent],
   templateUrl: './view-all.component.html',
   styleUrl: './view-all.component.scss',
 })
 export class ViewAllComponent {
   private readonly service = inject(AnimeService);
-  animes$!: Observable<ResponseGetDTO>;
-  offset = signal(0);
+  data = this.service.animes;
+  total = signal<number>(0);
+  offset = signal<number>(0);
   limit = 14;
 
-  ngOnInit(): void {
-    this.animes$ = this.service.onGetAnimes(this.offset(), this.limit);
+  constructor() {
+    effect(() => {
+      this.service.onGetAnimes(this.offset(), this.limit);
+    });
+    effect(
+      () => {
+        console.log('data', this.data());
+        if (this.data() !== null) {
+          this.total.set(this.data()!.total);
+          console.log('total', this.total());
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
-
   onPageChange(event: number): void {
     this.offset.set((event - 1) * this.limit);
-    console.log('offset', this.offset());
-
-    this.animes$ = this.service.onGetAnimes(this.offset(), this.limit);
   }
 
-  onRemoveFavorite(
-    event: { id: string; favoriteState: boolean },
-    animes: AnimesDTO[]
-  ): void {
-    // this.service.onFavorite(!event.favoriteState, event.id).subscribe({
-    //   next: () => {
-    //     console.log('Favorite state updated');
-    //     const index = animes.findIndex((anime) => anime.id === event.id);
-    //     animes.splice(index, 1);
-    //   },
-    // });
+  onToggleFavorite(event: { id: string; favoriteState: boolean }): void {
+    this.service.onToggleFavorite(!event.favoriteState, event.id);
   }
 }

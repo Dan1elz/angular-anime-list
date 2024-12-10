@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import {
   AddSeasonDTO,
@@ -10,18 +10,21 @@ import {
   ResponseGetDTO,
 } from '../interfaces/anime-dto.interface';
 import { Router } from '@angular/router';
-import { AnimeMapperDTO } from '../mappers/animeMapperDTO.service';
+import { AnimeMapperDTO } from '../mappers/animeMapperDTO';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnimeService {
-  private userService = inject(UserService);
-  private http = inject(HttpClient);
-  private urlApi = `http://localhost:5188`;
-  private token = this.userService.readonlyUserInfo;
-  private router = inject(Router);
   private animeMapperDTO = inject(AnimeMapperDTO);
+  private userService = inject(UserService);
+  private urlApi = `http://localhost:5188`;
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private token = this.userService.readonlyUserInfo;
+
+  private animesState = signal<ResponseGetDTO | null>(null);
+  animes = this.animesState.asReadonly();
 
   onPostAnime(anime: FormData): Observable<any> {
     const headers = new HttpHeaders({
@@ -33,7 +36,7 @@ export class AnimeService {
     }
     return this.http.post<any>(`${this.urlApi}/api/anime`, anime, { headers });
   }
-  onGetAnimes(offset: number, limit: number): Observable<ResponseGetDTO> {
+  onGetAnimes(offset: number, limit: number) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
     });
@@ -51,7 +54,8 @@ export class AnimeService {
           }
           return { animes: [], total: 0 };
         })
-      );
+      )
+      .subscribe((animes) => this.animesState.set(animes));
   }
 
   onGetAnime(id: string): Observable<AnimeDTO> {
@@ -119,16 +123,25 @@ export class AnimeService {
     );
   }
 
-  onFavorite(favoriteState: boolean, animeId: string): Observable<any> {
+  onToggleFavorite(favoriteState: boolean, animeId: string) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token()}`,
     });
 
-    return this.http.put<any>(
-      `${this.urlApi}/api/anime/favorite/${animeId}`,
-      { favoriteState },
-      { headers }
-    );
+    return this.http
+      .put<any>(
+        `${this.urlApi}/api/anime/favorite/${animeId}`,
+        { favoriteState },
+        { headers }
+      )
+      .subscribe(() => {
+        const anime = this.animesState();
+        const index = anime!.animes.findIndex((a) => a.id === animeId);
+        if (index > 0) {
+          anime!.animes[index].favoriteState = favoriteState;
+          this.animesState.set(anime);
+        }
+      });
   }
 
   onAddSeason(season: AddSeasonDTO): Observable<any> {

@@ -91,11 +91,11 @@ export class AnimeComponent implements OnInit {
   }
 
   onFavorite(anime: AnimeDTO): void {
-    // this.service.onFavorite(!anime.favoriteState, this.animeId).subscribe({
-    //   next: () => {
-    //     anime.favoriteState = !anime.favoriteState;
-    //   },
-    // });
+    //   this.service.onFavorite(!anime.favoriteState, this.animeId).subscribe({
+    //     next: () => {
+    //       anime.favoriteState = !anime.favoriteState;
+    //     },
+    //   });
   }
   onAddSeason(event: Event, anime: AnimeDTO): void {
     event.preventDefault();

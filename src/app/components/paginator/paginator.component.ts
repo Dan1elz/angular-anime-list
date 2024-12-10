@@ -4,7 +4,25 @@ import { Component, effect, input, output, signal } from '@angular/core';
   selector: 'app-paginator',
   standalone: true,
   imports: [],
-  templateUrl: './paginator.component.html',
+  template: `
+    @if(totalPages() > 1) {
+    <div class="paginator">
+      <button (click)="previousPage()" [disabled]="currentPage() === 1">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      @for (page of createRange(totalPages()); track $index) {
+      <button [disabled]="page === currentPage()" (click)="selectPage(page)">
+        {{ page }}
+      </button>
+      }
+
+      <button (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+        <i class="bi bi-arrow-right"></i>
+      </button>
+    </div>
+    }
+  `,
   styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
@@ -13,11 +31,6 @@ export class PaginatorComponent {
   totalItems = input.required<number>(); //total
   currentPageEvent = output<number>();
 
-  constructor() {
-    effect(() => {
-      console.log('Page EFFECT', this.currentPage());
-    });
-  }
   totalPages(): number {
     return Math.ceil(this.totalItems() / this.maximumPerPage());
   }
