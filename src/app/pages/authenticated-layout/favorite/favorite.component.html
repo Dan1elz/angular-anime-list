@@ -1,12 +1,21 @@
-@if(data() !== null)
-{
-<app-grid-cards
-  header = "Favorites"
-  [data] = data()!.animes
-  (favoriteEmit)="onRemoveFavorite($event)" />
+@if(data() !== undefined && data()!.animes.length > 0) {
+  <div class="element">
+    <app-grid-cards
+      header = "Favorites"
+      [data] = data()!.animes
+      (favoriteEmit)="onRemoveFavorite($event)"
+    />
+  </div>
+
+  <app-paginator
+    [maximumPerPage] = "limit"
+    [currentPage] = "currentPage()!"
+    [totalItems]="data()!.total"
+    (currentPageEvent)="onPageChange($event)"
+  />
 }
-<app-paginator
-  [maximumPerPage] = "limit"
-  [totalItems]="total()"
-  (currentPageEvent)="onPageChange($event)"
-/>
+@else {
+  <div class="element">
+    <span> <p>No anime favorites found!</p></span>
+  </div>
+}

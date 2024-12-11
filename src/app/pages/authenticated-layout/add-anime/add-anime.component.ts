@@ -1,20 +1,23 @@
 import { Router } from '@angular/router';
-import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { GenreDTO } from '../../../core/interfaces/anime-dto.interface';
 import { AnimeService } from '../../../core/services/anime.service';
+import { GenresService } from '../../../core/services/genres.service';
 
 @Component({
-    selector: 'app-add-anime',
-    imports: [FormsModule, AsyncPipe, NgClass],
-    templateUrl: './add-anime.component.html',
-    styleUrl: './add-anime.component.scss'
+  selector: 'app-add-anime',
+  imports: [FormsModule, NgClass],
+  templateUrl: './add-anime.component.html',
+  styleUrl: './add-anime.component.scss',
 })
-export class AddAnimeComponent implements OnInit {
+export class AddAnimeComponent {
   private readonly service = inject(AnimeService);
   private route = inject(Router);
+  private genresService = inject(GenresService);
+
+  genres = this.genresService.genres;
+
   anime = {
     title: '',
     alternativeTitle: '',
@@ -30,15 +33,10 @@ export class AddAnimeComponent implements OnInit {
     imageFile: null as File | null,
   };
 
-  genres$!: Observable<GenreDTO[]>;
-
   hasSuccess: boolean = false;
   hasError: boolean = false;
   message: string = '';
 
-  ngOnInit(): void {
-    this.genres$ = this.service.onGetGenres();
-  }
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {

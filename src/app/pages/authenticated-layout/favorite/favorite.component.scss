@@ -1,3 +1,13 @@
 :host {
-  min-height: calc(100vh - 90px);
+  display: block;
+  .element {
+    min-height: calc(100vh - 175px);
+
+    span {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+  }
 }

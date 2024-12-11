@@ -68,8 +68,8 @@
       </div>
 
       <div class="chechbox-holder">
-        @if(genres$ | async; as genres) {
-          @for (genre of genres; track genre.id) {
+        @if(genres() !== undefined) {
+          @for (genre of genres(); track genre.id) {
             <div class="">
               <input
               type="checkbox"

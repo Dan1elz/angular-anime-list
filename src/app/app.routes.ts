@@ -9,6 +9,7 @@ import { ProfileComponent } from './pages/authenticated-layout/profile/profile.c
 import { AnimeComponent } from './pages/authenticated-layout/anime/anime.component';
 import { FavoriteComponent } from './pages/authenticated-layout/favorite/favorite.component';
 import { ViewAllComponent } from './pages/authenticated-layout/view-all/view-all.component';
+import { CategorySearchComponent } from './pages/authenticated-layout/category-search/category-search.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
@@ -29,6 +30,8 @@ export const routes: Routes = [
       { path: 'view-all', component: ViewAllComponent },
       { path: 'add-anime', component: AddAnimeComponent },
       { path: 'anime/:id', component: AnimeComponent },
+      { path: 'categories', component: CategorySearchComponent },
+
       { path: 'settings', component: AddAnimeComponent },
     ],
   },

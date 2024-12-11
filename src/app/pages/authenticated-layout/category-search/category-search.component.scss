@@ -1,0 +1,97 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  justify-content: center;
+
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-asx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  .element {
+    min-height: calc(100vh - 175px);
+    width: 100%;
+
+    span {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+  }
+
+
+  form {
+    width: 100%;
+    position: relative;
+    max-width: calc(100% - 100px);
+
+
+    .grid-template {
+      width: 100%;
+      display: grid;
+      gap: 10px 5px;
+      grid-template-columns: 1fr 90px;
+
+      .form-group {
+        width: 100%;
+        height: 38px;
+        display: flex;
+        width: calc(100%);
+        position: relative;
+        margin-top: 0.5rem;
+        align-items: center;
+
+        &:has(input[type="search"])  input{
+          width: 100%;
+          height: 100%;
+          border: none;
+          outline: none;
+          padding: 0 1rem;
+          font-weight: 400;
+          border-radius: 7px;
+          transition: all 300ms;
+          color: var(--font-color-white);
+          background-color: var(--bg-card);
+
+          &:hover,  &:focus { background-color: var(--bg-card-hover);}
+
+          &::placeholder {
+            font-weight: 300;
+            color: var(--font-color-white);
+          }
+        }
+      }
+
+      .form-group:has(button[type="submit"]) {
+       grid-area: 1 / 2;
+        button {
+          width: 100%;
+          height: 38px;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          font-weight: 500;
+          border-radius: 7px;
+          transition: all 300ms;
+          box-shadow: var(--shadow);
+          text-transform: uppercase;
+          color: var(--font-color-white);
+          background: var(--border-input);
+
+          &:hover { background: var(--navbar-dropdown);}
+        }
+      }
+      .form-group-options {
+        gap: 10px 5px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      }
+    }
+  }
+}

@@ -12,23 +12,25 @@ import { CarouselHeroHighlightComponent } from '../../../components/carousel-her
 import { FavoriteService } from '../../../core/services/favorite.service';
 
 @Component({
-    selector: 'app-home',
-    imports: [
-        CarouselCardsComponent,
-        GridCardsComponent,
-        CarouselHeroHighlightComponent,
-    ],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss'
+  selector: 'app-home',
+  imports: [
+    CarouselCardsComponent,
+    GridCardsComponent,
+    CarouselHeroHighlightComponent,
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   private readonly service = inject(AnimeService);
   private readonly favoriteService = inject(FavoriteService);
   animes = this.service.animes;
   favorites = this.favoriteService.animeFavorited;
+  animesRating = this.service.animesRating;
 
   constructor() {
     this.service.onGetAnimes(0, 14);
     this.favoriteService.onGetAnimesFavorited(0, 21);
+    this.service.onGetAnimesOrderByRating(0, 7);
   }
 }

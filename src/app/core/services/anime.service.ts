@@ -26,22 +26,26 @@ export class AnimeService {
   private animesState = signal<ResponseGetDTO | null>(null);
   animes = this.animesState.asReadonly();
 
-  onPostAnime(anime: FormData): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
+  private animesRatingState = signal<ResponseGetDTO | null>(null);
+  animesRating = this.animesRatingState.asReadonly();
 
+  headers = new HttpHeaders({
+    Authorization: `Bearer ${this.token()}`,
+  });
+
+  onPostAnime(anime: FormData): Observable<any> {
     for (let pair of (anime as any).entries()) {
       console.log(`${pair[0]}: ${pair[1]}`);
     }
-    return this.http.post<any>(`${this.urlApi}/api/anime`, anime, { headers });
+    return this.http.post<any>(`${this.urlApi}/api/anime`, anime, {
+      headers: this.headers,
+    });
   }
   onGetAnimes(offset: number, limit: number) {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
     return this.http
-      .get<any>(`${this.urlApi}/api/anime/${offset}/${limit}`, { headers })
+      .get<any>(`${this.urlApi}/api/anime/${offset}/${limit}`, {
+        headers: this.headers,
+      })
       .pipe(
         map((response: any) => {
           console.log(response);
@@ -59,11 +63,8 @@ export class AnimeService {
   }
 
   onGetAnime(id: string): Observable<AnimeDTO> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
     return this.http
-      .get<any>(`${this.urlApi}/api/anime/${id}`, { headers })
+      .get<any>(`${this.urlApi}/api/anime/${id}`, { headers: this.headers })
       .pipe(
         map((response: any) => {
           if (response.data) {
@@ -78,20 +79,25 @@ export class AnimeService {
         })
       );
   }
-  onGetGenres(): Observable<GenreDTO[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-    return this.http.get<any>(`${this.urlApi}/api/genre`, { headers }).pipe(
-      map((response: any) => {
-        if (response.data) {
-          var genres = response.data.map((item: GenreDTO) => item as GenreDTO);
-          console.log(genres);
-          return genres;
-        }
-        return [] as GenreDTO[];
+
+  onGetAnimesOrderByRating(offset: number, limit: number) {
+    return this.http
+      .get<any>(`${this.urlApi}/api/anime/rating/${offset}/${limit}`, {
+        headers: this.headers,
       })
-    );
+      .pipe(
+        map((response: any) => {
+          if (response.data) {
+            var animes: AnimesDTO[] = response.data.map(
+              (item: any) => this.animeMapperDTO.mapAnimesDTO(item) as AnimesDTO
+            );
+            const total = response.total;
+            return { animes, total };
+          }
+          return { animes: [], total: 0 };
+        })
+      )
+      .subscribe((anime) => this.animesRatingState.set(anime));
   }
 
   onDelete(animeId: string): Observable<any> {

@@ -14,15 +14,15 @@ export class CommentsService {
   private token = this.userService.readonlyUserInfo;
   private router = inject(Router);
 
-  onGetComments(animeId: string): Observable<any[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-      'Content-Type': 'application/json',
-    });
+  headers = new HttpHeaders({
+    Authorization: `Bearer ${this.token()}`,
+    'Content-Type': 'application/json',
+  });
 
+  onGetComments(animeId: string): Observable<any[]> {
     return this.http
       .get<any[]>(`${this.urlApi}/api/comment/${animeId}`, {
-        headers,
+        headers: this.headers,
       })
       .pipe(
         tap({
@@ -36,13 +36,9 @@ export class CommentsService {
       );
   }
   onGetComment(id: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-
     return this.http
       .get<any>(`${this.urlApi}/api/comment/comment/${id}`, {
-        headers,
+        headers: this.headers,
       })
       .pipe(
         tap({
@@ -60,37 +56,24 @@ export class CommentsService {
     animeId: string;
     commentText: string;
   }): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-      'Content-Type': 'application/json',
-    });
-
     return this.http.post<any>(
       `${this.urlApi}/api/comment`,
       JSON.stringify(comment),
       {
-        headers,
+        headers: this.headers,
       }
     );
   }
 
   onPutComment(data: { commentText: string }, id: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-
     return this.http.put<any>(`${this.urlApi}/api/comment/${id}`, data, {
-      headers,
+      headers: this.headers,
     });
   }
 
   onDeleteComment(id: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-
     return this.http.delete<any>(`${this.urlApi}/api/comment/${id}`, {
-      headers,
+      headers: this.headers,
     });
   }
 }

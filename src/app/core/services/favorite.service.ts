@@ -19,14 +19,14 @@ export class FavoriteService {
   private animeState = signal<ResponseGetDTO | null>(null);
   animeFavorited = this.animeState.asReadonly();
 
-  onGetAnimesFavorited(offset: number, limit: number) {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
+  headers = new HttpHeaders({
+    Authorization: `Bearer ${this.token()}`,
+  });
 
+  onGetAnimesFavorited(offset: number, limit: number) {
     return this.http
       .get<any>(`${this.urlApi}/api/anime/favorite/${offset}/${limit}`, {
-        headers,
+        headers: this.headers,
       })
       .pipe(
         map((response: any) => {
@@ -44,15 +44,11 @@ export class FavoriteService {
   }
 
   onRemoveFavorited(animeId: string) {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token()}`,
-    });
-
     return this.http
       .put<any>(
         `${this.urlApi}/api/anime/favorite/${animeId}`,
         { favoriteState: false },
-        { headers }
+        { headers: this.headers }
       )
       .subscribe(() => {
         const anime = this.animeState();

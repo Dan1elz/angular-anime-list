@@ -23,10 +23,11 @@
         transition: transform 0.3s ease;
 
         img {
-          height: 100%;
+          width: 210px;
+          height: 300px;
           object-fit: cover;
           transform: scale(2.5);
-          object-position: 0 10px;
+          object-position: 0 -10px;
         }
       }
       .hero-content {

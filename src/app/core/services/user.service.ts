@@ -20,7 +20,6 @@ export class UserService {
   private userInfo = signal<UserInfoDTO | null>(null);
 
   readonlyUserInfo = this.userInfo.asReadonly();
-
   constructor() {
     effect(() => this.onSyncUserInfo());
   }
@@ -44,6 +43,7 @@ export class UserService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.userInfo()}`,
     });
+
     return this.http.get<any>(`${this.urlApi}/api/user`, { headers }).pipe(
       map((response: any) => {
         console.log(response);

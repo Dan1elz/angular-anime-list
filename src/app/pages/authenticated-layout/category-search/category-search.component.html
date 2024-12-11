@@ -1,0 +1,61 @@
+<form>
+  <div class="grid-template">
+    <div class="form-group">
+      <input type="search" class="form-control" placeholder="Search for anime">
+    </div>
+    <div class="form-group-options">
+
+      @if(genres !== undefined){
+        <app-input-checkbox-select
+          title="Genres"
+          [options]="genres"
+          (output) = "onSelectedGenre($event)"
+        />
+      }
+      <app-input-radio-selected
+        title="Favorite State"
+        [options]="favorites"
+        (output) = "onSelectedFavoriteState($event)"
+      />
+      <app-input-radio-selected
+        title="Watched State"
+        [options]="watched"
+        (output) = "onSelectedWatchedState($event)"
+      />
+      <app-input-radio-selected
+        title="Rating"
+        [options]="rating"
+        (output) = "onSelectedRatingState($event)"
+      />
+    </div>
+
+    <div class="form-group">
+      <button type="submit">Search</button>
+    </div>
+  </div>
+</form>
+
+@if(data() !== undefined && data()!.animes.length > 0){
+  <div class="element">
+    <app-grid-cards
+      header = "View All"
+      [data] = "data()?.animes || []"
+      (favoriteEmit)="onToggleFavorite($event)"
+    />
+  </div>
+
+  <app-paginator
+    [maximumPerPage] = "limit"
+    [currentPage] = "currentPage()!"
+    [totalItems]="data()?.total || 0"
+    (currentPageEvent)="onPageChange($event)"
+  />
+
+}
+@else {
+  <div class="element">
+    <span> <p>No anime favorites found!</p></span>
+  </div>
+}
+
+

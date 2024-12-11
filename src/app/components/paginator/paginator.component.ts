@@ -1,9 +1,9 @@
 import { Component, effect, input, output, signal } from '@angular/core';
 
 @Component({
-    selector: 'app-paginator',
-    imports: [],
-    template: `
+  selector: 'app-paginator',
+  imports: [],
+  template: `
     @if(totalPages() > 1) {
     <div class="paginator">
       <button (click)="previousPage()" [disabled]="currentPage() === 1">
@@ -22,10 +22,10 @@ import { Component, effect, input, output, signal } from '@angular/core';
     </div>
     }
   `,
-    styleUrl: './paginator.component.scss'
+  styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
-  currentPage = signal<number>(1); //page
+  currentPage = input.required<number>(); //page
   maximumPerPage = input.required<number>(); //limit
   totalItems = input.required<number>(); //total
   currentPageEvent = output<number>();
@@ -34,16 +34,13 @@ export class PaginatorComponent {
     return Math.ceil(this.totalItems() / this.maximumPerPage());
   }
   nextPage(): void {
-    this.currentPage.update((page) => page + 1);
-    this.currentPageEvent.emit(this.currentPage());
+    this.currentPageEvent.emit(this.currentPage() + 1);
   }
   previousPage(): void {
-    this.currentPage.update((page) => page - 1);
-    this.currentPageEvent.emit(this.currentPage());
+    this.currentPageEvent.emit(this.currentPage() - 1);
   }
   selectPage(page: number): void {
-    this.currentPage.set(page);
-    this.currentPageEvent.emit(this.currentPage());
+    this.currentPageEvent.emit(page);
   }
   createRange(length: number): number[] {
     return Array.from({ length }, (_, i) => i + 1);

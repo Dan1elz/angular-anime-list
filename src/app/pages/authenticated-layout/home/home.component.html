@@ -1,6 +1,8 @@
 @if(animes() !== null) {
-  <app-carousel-hero-highlight
-  [data] = "animes()!.animes "/>
+  @if (animesRating() !== undefined) {
+    <app-carousel-hero-highlight
+    [data] = "animesRating()!.animes "/>
+  }
 
 
   @if(favorites() !== null) {

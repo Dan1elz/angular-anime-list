@@ -1,0 +1,24 @@
+
+<div class="form-group-select">
+  <div class="category-select">
+    <input #event type="checkbox" id="options-view-button" (keydown.esc)="onClose()">
+    <div id="select-button">
+      <div id="selected-value">{{value}}</div>
+      <div id="chevrons">
+        <i class="bi bi-chevron-down"></i>
+        <i class="bi bi-chevron-up"></i>
+      </div>
+    </div>
+  </div>
+
+  <ul class="category-options">
+
+    @for (data of options(); track $index) {
+      <li class="option">
+        <input type="checkbox" name="option" [value]="data.value" (change)="onChange(data)">
+        <span class="label">{{ data.label}}</span>
+        <i class="bi bi-check"></i>
+      </li>
+    }
+  </ul>
+</div>

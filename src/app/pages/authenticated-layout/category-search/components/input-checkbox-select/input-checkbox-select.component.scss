@@ -1,0 +1,123 @@
+.form-group-select {
+  position: relative;
+
+  .category-select {
+    position: relative;
+
+    label {
+      font-size: 0.75rem;
+      letter-spacing: 0.0225rem;
+    }
+    #select-button {
+      height: 38px;
+      display: flex;
+      padding: 0 0.75rem;
+      border-radius: 7px;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-input-seccond);
+
+      #selected-value {
+        // width: 150px;
+        font-size: 0.875rem;
+        letter-spacing: 0.02625rem;
+        color: var(--font-color-white);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      #chevrons {
+        font-size: 16px;
+        color: var(--font-color-white);
+
+        .bi-chevron-up { display: none;}
+      }
+    }
+
+    #options-view-button:focus + #select-button,
+    #options-view-button:checked + #selected-button {
+      outline:  1px solid var(--font-color-primary);
+    }
+
+    &:has(#options-view-button:checked) label,
+    #options-view-button:checked + #select-button #chevrons {
+      color: var(--font-color-primary);
+    }
+
+    #options-view-button:checked + #select-button #chevrons {
+      .bi-chevron-up {  display: flex;}
+      .bi-chevron-down { display: none;}
+   }
+
+   #options-view-button {
+    all: unset;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    z-index: 3;
+   }
+  }
+  .category-select:has( #options-view-button:checked) + .category-options {
+    display: block;
+  }
+
+  .category-options {
+    z-index: 10;
+    width: 100%;
+    display: none;
+    margin-top: 5px;
+    overflow-y: auto;
+    max-height: 300px;
+    position: absolute;
+    border-radius: .375rem;
+    box-shadow: var(--shadow);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-input-seccond);
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color:#252529;
+    }
+
+
+    .option {
+      gap: .5rem;
+      display: flex;
+      padding: .75rem;
+      position: relative;
+      align-items: center;
+      border-bottom: 1px solid #252529;
+
+      span { color: #FBF9FE; }
+
+      i {
+        display: none;
+        font-size: 16px;
+        margin-left: auto;
+        color: var(--font-color-primary);
+      }
+
+      &:has(input:checked), &:hover {
+        border-radius: 7px;
+        background-color: #252529;
+        border-bottom: 1px solid #252529;
+      }
+      &:has(input:focus) {
+        outline: 1px solid var(--font-color-primary);
+      }
+      &:has(input:checked) i {
+        display: block;
+      }
+      & input[type="checkbox"] {
+        all: unset;
+        position: absolute;
+        inset: 0;
+        cursor: pointer;
+      }
+    }
+  }
+}
