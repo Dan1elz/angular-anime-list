@@ -15,8 +15,9 @@
 
     @for (data of options(); track $index) {
       <li class="option">
-        <input type="checkbox" name="option" [value]="data.value" (change)="onChange(data)">
+        <input type="checkbox" name="option" [value]="data.value" (change)="onChange(data)"  [checked]="current().includes(data.value)">
         <span class="label">{{ data.label}}</span>
+
         <i class="bi bi-check"></i>
       </li>
     }

@@ -35,6 +35,7 @@ export class CategorySearchComponent {
     { label: 'Favorited', value: 'true' },
     { label: 'Not Favorited', value: 'false' },
   ];
+
   watched = [
     { label: 'Watched', value: 'true' },
     { label: 'Not Watched', value: 'false' },
@@ -56,18 +57,62 @@ export class CategorySearchComponent {
 
   genres: any = [];
 
+  selectedGenres = signal<string[] | undefined>([]);
+  selectedFavorite = signal<string | undefined>(undefined);
+  selectedWatched = signal<string | undefined>(undefined);
+  selectedRating = signal<string | undefined>(undefined);
+  currentPage = signal<number | undefined>(undefined);
+
   params$ = this.route.paramMap.pipe(
     map((params) => {
-      var param = Number(params.get('page') ?? 1);
-      if (param < 1) {
-        param = 1;
+      var param = {} as any;
+
+      var page = Number(params.get('page') ?? 1);
+      if (page < 1) {
+        page = 1;
       }
+      param.page = page;
+
+      var genres = params.getAll('genre').join(',').split(',');
+      if (genres.length > 0) {
+        param.genres = genres;
+      }
+
+      var favorite = params.get('favorite');
+      if (favorite !== 'null') {
+        param.favorite = favorite;
+      }
+
+      var watched = params.get('watched');
+      if (watched !== null) {
+        param.watched = watched;
+      }
+
+      var rating = params.get('rating');
+      if (rating !== null) {
+        param.rating = rating;
+      }
+
       return param;
     })
   );
-  currentPage: Signal<number | undefined> = toSignal(this.params$);
+
+  params: Signal<any> = toSignal(this.params$);
 
   constructor() {
+    effect(() => {
+      this.selectedGenres.set(this.params().genres ?? []);
+      this.selectedFavorite.set(this.params().favorite ?? undefined);
+      this.selectedWatched.set(this.params().watched ?? undefined);
+      this.selectedRating.set(this.params().rating ?? undefined);
+
+      if (this.currentPage() !== this.params().page) {
+        this.currentPage.set(this.params().page);
+      }
+
+      console.log(`params`, this.params());
+    });
+
     effect(() => {
       if (this.genres$() !== undefined) {
         this.genres = this.genres$()!.map((genre: any) => ({
@@ -75,34 +120,65 @@ export class CategorySearchComponent {
           value: genre.id,
         }));
       }
-      console.log('Generos', this.genres);
     });
-
     effect(() => {
       this.offset.set((this.currentPage()! - 1) * this.limit);
       this.service.onGetAnimes(this.offset(), this.limit);
     });
   }
 
-  onPageChange(page: number): void {
-    this.router.navigate(['/auth/categories', { page: page }]);
+  onSubmitForm(event: Event) {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    var genres = formData.getAll('genres').join(',').split(',');
+    console.log(genres);
+    var favorite = formData.get('favorite');
+    console.log(favorite);
+    var watched = formData.get('watched');
+    console.log(watched);
+    var rating = formData.get('rating');
+
+    console.log(rating);
   }
 
-  onToggleFavorite(event: { id: string; favoriteState: boolean }): void {
-    this.service.onToggleFavorite(!event.favoriteState, event.id);
+  onSelectedGenre(data: { label: string; value: string }[]) {
+    const currentParams = this.route.snapshot.params;
+    this.router.navigate([
+      '/auth/categories',
+      { ...currentParams, genre: data.map((x) => x.value) },
+    ]);
   }
-
   onSelectedFavoriteState(data: { label: string; value: string }) {
-    console.log(data);
+    const currentParams = this.route.snapshot.params;
+    this.router.navigate([
+      '/auth/categories',
+      { ...currentParams, favorite: data.value },
+    ]);
   }
-
   onSelectedWatchedState(data: { label: string; value: string }) {
-    console.log(data);
+    const currentParams = this.route.snapshot.params;
+    this.router.navigate([
+      '/auth/categories',
+      { ...currentParams, watched: data.value },
+    ]);
   }
   onSelectedRatingState(data: { label: string; value: string }) {
-    console.log(data);
+    const currentParams = this.route.snapshot.params;
+    this.router.navigate([
+      '/auth/categories',
+      { ...currentParams, rating: data.value },
+    ]);
   }
-  onSelectedGenre(data: { label: string; value: string }[]) {
-    console.log(data);
+  onPageChange(page: number): void {
+    const currentParams = this.route.snapshot.params;
+    this.router.navigate([
+      '/auth/categories',
+      { ...currentParams, page: page },
+    ]);
+  }
+  onToggleFavorite(event: { id: string; favoriteState: boolean }): void {
+    this.service.onToggleFavorite(!event.favoriteState, event.id);
   }
 }

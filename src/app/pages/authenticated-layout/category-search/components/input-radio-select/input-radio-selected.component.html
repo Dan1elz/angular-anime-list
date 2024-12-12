@@ -15,8 +15,8 @@
 
     @for (data of options(); track $index) {
       <li class="option">
-        <input type="radio" name="option" [value]="data.value" (change)="onChange(data)">
-        <span class="label">{{ data.label}}</span>
+        <input type="radio" [name]="title()" [value]="data.value" (change)="onChange(data)" [checked]="data.value === current()">
+        <span class="label">{{ data.label }}</span>
         <i class="bi bi-check"></i>
       </li>
     }
