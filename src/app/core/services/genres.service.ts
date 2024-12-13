@@ -4,13 +4,14 @@ import { GenreDTO } from '../interfaces/anime-dto.interface';
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { environment } from '../environments/variable.environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GenresService {
   private userService = inject(UserService);
-  private urlApi = `http://localhost:5188`;
+  private urlApi = environment.urlApi;
   private http = inject(HttpClient);
   private token = this.userService.readonlyUserInfo;
 

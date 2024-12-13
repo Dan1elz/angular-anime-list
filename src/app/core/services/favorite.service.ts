@@ -4,6 +4,7 @@ import { AnimesDTO, ResponseGetDTO } from '../interfaces/anime-dto.interface';
 import { map } from 'rxjs';
 import { UserService } from './user.service';
 import { AnimeMapperDTO } from '../mappers/animeMapperDTO';
+import { environment } from '../environments/variable.environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { AnimeMapperDTO } from '../mappers/animeMapperDTO';
 export class FavoriteService {
   private animeMapperDTO = inject(AnimeMapperDTO);
   private userService = inject(UserService);
-  private urlApi = `http://localhost:5188`;
+  private urlApi = environment.urlApi;
   private http = inject(HttpClient);
   private token = this.userService.readonlyUserInfo;
 

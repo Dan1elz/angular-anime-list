@@ -9,6 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { GridCardsComponent } from '../../../components/grid-cards/grid-cards.component';
 import { PaginatorComponent } from '../../../components/paginator/paginator.component';
 import { GenresService } from '../../../core/services/genres.service';
+import { GetCategoryDTO } from '../../../core/interfaces/anime-dto.interface';
 
 @Component({
   selector: 'app-category-search',
@@ -27,23 +28,23 @@ export class CategorySearchComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  data = this.service.animesCategory;
+  data = this.service.animes;
   offset = signal<number>(0);
   limit = 14;
 
   favorites = [
-    { label: 'Favorited', value: 'true' },
-    { label: 'Not Favorited', value: 'false' },
+    { label: 'Favorited', value: true },
+    { label: 'Not Favorited', value: false },
   ];
 
   watched = [
-    { label: 'Watched', value: 'true' },
-    { label: 'Not Watched', value: 'false' },
+    { label: 'Watched', value: true },
+    { label: 'Not Watched', value: false },
   ];
 
   rating = Array.from({ length: 10 }, (_, i) => ({
     label: (i + 1).toString(),
-    value: (i + 1).toString(),
+    value: i + 1,
   }));
 
   genres = toSignal<{ label: string; value: string }[] | undefined>(
@@ -61,40 +62,44 @@ export class CategorySearchComponent {
     this.route.paramMap.pipe(
       map((params) => ({
         page: Math.max(Number(params.get('page') ?? 1), 1),
-        search: params.get('search') ?? undefined,
+        search: params.get('search'),
         genres: params.getAll('genres').join(',').split(',').filter(Boolean),
-        favorite: params.get('favorite') ?? undefined,
-        watched: params.get('watched') ?? undefined,
-        rating: params.get('rating') ?? undefined,
+        favorite: params.get('favorite'),
+        watched: params.get('watched'),
+        rating: params.get('rating'),
       }))
     )
   );
 
-  filterOptions = signal({
-    search: '',
-    genres: [] as string[],
-    favorite: undefined as string | undefined,
-    watched: undefined as string | undefined,
-    rating: undefined as string | undefined,
-  });
+  filterOptions = signal<GetCategoryDTO>({});
 
-  selectedOptions = signal({
-    search: '',
-    genres: [] as string[],
-    favorite: undefined as string | undefined,
-    watched: undefined as string | undefined,
-    rating: undefined as string | undefined,
-  });
+  selectedOptions = signal<GetCategoryDTO>({});
+  selectedOptionReadonly = this.selectedOptions.asReadonly();
 
   constructor() {
     effect(() => {
       this.selectedOptions.set({
-        search: this.params().search ?? undefined,
-        genres: this.params().genres ?? [],
-        favorite: this.params().favorite ?? undefined,
-        watched: this.params().watched ?? undefined,
-        rating: this.params().rating ?? undefined,
+        search: this.params().search ?? null,
+        genres: this.params().genres ?? null,
+        favorite:
+          this.params().favorite === 'true'
+            ? true
+            : this.params().favorite === 'false'
+            ? false
+            : null,
+        watched:
+          this.params().watched === 'true'
+            ? true
+            : this.params().watched === 'false'
+            ? false
+            : null,
+        rating: this.params().rating ? Number(this.params().rating) : null,
       });
+
+      this.filterOptions.set({});
+
+      console.log('selectedOptions', this.selectedOptions());
+      console.log('favorite', this.selectedOptions().favorite);
 
       if (this.currentPage() !== this.params().page) {
         this.currentPage.set(this.params().page);
@@ -103,19 +108,20 @@ export class CategorySearchComponent {
       this.service.onGetAnimesByCategory(
         this.offset(),
         this.limit,
-        this.selectedOptions()
+        this.selectedOptionReadonly()
       );
     });
   }
 
-  onSelectedGenre(data: { label: string; value: string }[]) {
+  onSelectedGenre(data: { label: string; value: any }[]) {
     this.filterOptions.update((state) => ({
       ...state,
       genres: data.map((x) => x.value),
     }));
   }
 
-  onSelectedRadioState(data: { label: string; value: string }, key: string) {
+  onSelectedRadioState(data: { label: string; value: any }, key: string) {
+    console.log('valor', data);
     this.filterOptions.update((state) => ({ ...state, [key]: data.value }));
   }
 

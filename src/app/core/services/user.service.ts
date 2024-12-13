@@ -9,6 +9,7 @@ import {
 } from '../interfaces/user-dto.interface';
 import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../environments/variable.environment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
 export class UserService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private urlApi = `http://localhost:5188`;
+  private urlApi = environment.urlApi;
   private userInfo = signal<UserInfoDTO | undefined>(undefined);
 
   readonlyUserInfo = this.userInfo.asReadonly();

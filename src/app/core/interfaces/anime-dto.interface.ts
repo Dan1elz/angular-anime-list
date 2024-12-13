@@ -48,3 +48,10 @@ export interface ResponseGetDTO {
   animes: AnimesDTO[];
   total: number;
 }
+export interface GetCategoryDTO {
+  search?: string;
+  genres?: string[];
+  favorite?: boolean | null;
+  watched?: boolean | null;
+  rating?: number | null;
+}

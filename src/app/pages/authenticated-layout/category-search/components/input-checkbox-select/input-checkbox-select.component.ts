@@ -1,8 +1,8 @@
 import {
   Component,
+  effect,
   ElementRef,
   input,
-  OnInit,
   output,
   signal,
   ViewChild,
@@ -14,7 +14,7 @@ import {
   templateUrl: './input-checkbox-select.component.html',
   styleUrl: './input-checkbox-select.component.scss',
 })
-export class InputCheckboxSelectComponent implements OnInit {
+export class InputCheckboxSelectComponent {
   title = input<string>();
   options = input<{ label: string; value: string }[]>();
   current = input<any | undefined>();
@@ -24,14 +24,16 @@ export class InputCheckboxSelectComponent implements OnInit {
   @ViewChild('event') event!: ElementRef;
   value = '';
 
-  ngOnInit() {
-    const currentOption = this.options()!.filter((option) =>
-      this.current().includes(option.value)
-    );
-    this.value =
-      currentOption.length > 0
-        ? currentOption.map((option) => option.label).join(', ')
-        : this.title()?.toString() || '';
+  constructor() {
+    effect(() => {
+      const currentOption = this.options()!.filter((option) =>
+        this.current().includes(option.value)
+      );
+      this.value =
+        currentOption.length > 0
+          ? currentOption.map((option) => option.label).join(', ')
+          : this.title()?.toString() || '';
+    });
   }
 
   onChange(data: { label: string; value: string }) {
@@ -47,7 +49,6 @@ export class InputCheckboxSelectComponent implements OnInit {
         .map((x) => x.label)
         .join(', ');
     }
-
     this.output.emit(this.list());
   }
   onClose() {

@@ -1,16 +1,18 @@
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, Signal, signal } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import {
   AddSeasonDTO,
   AnimeDTO,
   AnimesDTO,
   GenreDTO,
+  GetCategoryDTO,
   ResponseGetDTO,
 } from '../interfaces/anime-dto.interface';
 import { Router } from '@angular/router';
 import { AnimeMapperDTO } from '../mappers/animeMapperDTO';
+import { environment } from '../environments/variable.environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,7 @@ import { AnimeMapperDTO } from '../mappers/animeMapperDTO';
 export class AnimeService {
   private animeMapperDTO = inject(AnimeMapperDTO);
   private userService = inject(UserService);
-  private urlApi = `http://localhost:5188`;
+  private urlApi = environment.urlApi;
   private http = inject(HttpClient);
   private router = inject(Router);
   private token = this.userService.readonlyUserInfo;
@@ -28,9 +30,6 @@ export class AnimeService {
 
   private animesRatingState = signal<ResponseGetDTO | undefined>(undefined);
   animesRating = this.animesRatingState.asReadonly();
-
-  private animesCategoryState = signal<ResponseGetDTO | undefined>(undefined);
-  animesCategory = this.animesCategoryState.asReadonly();
 
   headers = new HttpHeaders({
     Authorization: `Bearer ${this.token()}`,
@@ -106,18 +105,13 @@ export class AnimeService {
   onGetAnimesByCategory(
     offset: number,
     limit: number,
-    category: {
-      search: string | undefined;
-      genres: string[];
-      favorite: string | undefined;
-      watched: string | undefined;
-      rating: string | undefined;
-    }
+    category: GetCategoryDTO
   ) {
+    console.log('category', category);
     return this.http
       .post<any>(
         `${this.urlApi}/api/anime/category/${offset}/${limit}`,
-        { category },
+        category,
         { headers: this.headers }
       )
       .pipe(
@@ -132,7 +126,7 @@ export class AnimeService {
           return { animes: [], total: 0 };
         })
       )
-      .subscribe((animes) => this.animesCategoryState.set(animes));
+      .subscribe((animes) => this.animesState.set(animes));
   }
 
   onDelete(animeId: string): Observable<any> {

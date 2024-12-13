@@ -1,8 +1,8 @@
 import {
   Component,
+  effect,
   ElementRef,
   input,
-  OnInit,
   output,
   ViewChild,
 } from '@angular/core';
@@ -13,25 +13,27 @@ import {
   templateUrl: './input-radio-selected.component.html',
   styleUrl: './input-radio-selected.component.scss',
 })
-export class InputRadioSelectedComponent implements OnInit {
+export class InputRadioSelectedComponent {
   title = input<string>();
-  options = input<{ label: string; value: string }[]>();
+  options = input<{ label: string; value: any }[]>();
   current = input<any | undefined>();
-  output = output<{ label: string; value: string }>();
+  output = output<{ label: string; value: any }>();
 
   @ViewChild('event') event!: ElementRef;
   value = '';
 
-  ngOnInit() {
-    const currentOption = this.options()?.find(
-      (option) => option.value === this.current()
-    );
-    this.value = currentOption
-      ? currentOption.label
-      : this.title()?.toString() || '';
+  constructor() {
+    effect(() => {
+      const currentOption = this.options()?.find(
+        (option) => option.value === this.current()
+      );
+      this.value = currentOption
+        ? currentOption.label
+        : this.title()?.toString() || '';
+    });
   }
 
-  onChange(data: { label: string; value: string }) {
+  onChange(data: { label: string; value: any }) {
     this.value = data.label;
     this.event.nativeElement.click();
     this.output.emit(data);

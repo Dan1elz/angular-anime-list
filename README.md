@@ -20,13 +20,7 @@ CRUD Usuario
 Funções Variadas na parte de Adicionar um anime, como Get Categorias 
 
 
+A RESOLVER: 
 
-FLUXO Tela Categories:
-
-SELECIONAR as opções sem triggar ainda com a URL, triggar APENAS com o SUBMIT, trigar com a URL e carregar os elementos, utilizar o fetch para deixar dinamico o carregamento de volta. 
-
-o parametro da page continua padrão reutilizando oque já tem na url. 
-sem auto complete para o search(pelo menos até o momento)
-
-
-Problema 1: ao selecionar o valor do elemento, aonde ele vai ficar armazenado até o submit? 
+1º Glith ao Favoritar Anime
+2º Arrumar a tela de Animes 

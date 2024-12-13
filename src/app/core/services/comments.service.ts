@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, take } from 'rxjs';
+import { environment } from '../environments/variable.environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { Observable, tap, take } from 'rxjs';
 export class CommentsService {
   private userService = inject(UserService);
   private http = inject(HttpClient);
-  private urlApi = `http://localhost:5188`;
+  private urlApi = environment.urlApi;
   private token = this.userService.readonlyUserInfo;
   private router = inject(Router);
 
