@@ -25,19 +25,13 @@ export class InputCheckboxSelectComponent implements OnInit {
   value = '';
 
   ngOnInit() {
-    console.log(this.current());
-    if (this.current().toString().length > 0) {
-      const currentOption = this.options()!.filter((option) =>
-        this.current().includes(option.value)
-      );
-      if (currentOption) {
-        this.value = currentOption.map((option) => option.label).join(', ');
-      } else {
-        this.value = this.title()!.toString();
-      }
-    } else {
-      this.value = this.title()!.toString();
-    }
+    const currentOption = this.options()!.filter((option) =>
+      this.current().includes(option.value)
+    );
+    this.value =
+      currentOption.length > 0
+        ? currentOption.map((option) => option.label).join(', ')
+        : this.title()?.toString() || '';
   }
 
   onChange(data: { label: string; value: string }) {

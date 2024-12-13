@@ -29,7 +29,6 @@ export class GenresService {
             var genres = response.data.map(
               (item: GenreDTO) => item as GenreDTO
             );
-            console.log(genres);
             return genres;
           }
           return [] as GenreDTO[];

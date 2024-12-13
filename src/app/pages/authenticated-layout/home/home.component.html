@@ -1,11 +1,11 @@
-@if(animes() !== null) {
+@if(animes() !== undefined && animes()!.animes.length > 0) {
   @if (animesRating() !== undefined) {
     <app-carousel-hero-highlight
     [data] = "animesRating()!.animes "/>
   }
 
 
-  @if(favorites() !== null) {
+  @if(favorites() !== undefined && favorites()!.animes.length > 0) {
     <app-carousel-cards
       header = "Favorites"
       link = "/auth/favorites"

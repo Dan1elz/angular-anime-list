@@ -17,7 +17,7 @@ export class UserService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private urlApi = `http://localhost:5188`;
-  private userInfo = signal<UserInfoDTO | null>(null);
+  private userInfo = signal<UserInfoDTO | undefined>(undefined);
 
   readonlyUserInfo = this.userInfo.asReadonly();
   constructor() {
@@ -71,7 +71,7 @@ export class UserService {
 
   onLogout() {
     localStorage.removeItem('UserData');
-    this.userInfo.set(null);
+    this.userInfo.set(undefined);
     this.router.navigate(['/login']);
   }
 

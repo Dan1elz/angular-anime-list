@@ -1,4 +1,4 @@
-import { Component, effect, inject, Signal, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { InputRadioSelectedComponent } from './components/input-radio-select/input-radio-selected.component';
 import { InputCheckboxSelectComponent } from './components/input-checkbox-select/input-checkbox-select.component';
 import { AnimeService } from '../../../core/services/anime.service';
@@ -27,7 +27,7 @@ export class CategorySearchComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  data = this.service.animes;
+  data = this.service.animesCategory;
   offset = signal<number>(0);
   limit = 14;
 
@@ -40,145 +40,107 @@ export class CategorySearchComponent {
     { label: 'Watched', value: 'true' },
     { label: 'Not Watched', value: 'false' },
   ];
-  rating = [
-    { label: '1', value: '1' },
-    { label: '2', value: '2' },
-    { label: '3', value: '3' },
-    { label: '4', value: '4' },
-    { label: '5', value: '5' },
-    { label: '6', value: '6' },
-    { label: '7', value: '7' },
-    { label: '8', value: '8' },
-    { label: '9', value: '9' },
-    { label: '10', value: '10' },
-  ];
 
-  genres$ = this.genresService.genres;
+  rating = Array.from({ length: 10 }, (_, i) => ({
+    label: (i + 1).toString(),
+    value: (i + 1).toString(),
+  }));
 
-  genres: any = [];
+  genres = toSignal<{ label: string; value: string }[] | undefined>(
+    this.genresService
+      .onGetGenres()
+      .pipe(
+        map((genres) =>
+          genres.map((genre) => ({ label: genre.name, value: genre.id }))
+        )
+      )
+  );
+  currentPage = signal<number>(1);
 
-  selectedGenres = signal<string[] | undefined>([]);
-  selectedFavorite = signal<string | undefined>(undefined);
-  selectedWatched = signal<string | undefined>(undefined);
-  selectedRating = signal<string | undefined>(undefined);
-  currentPage = signal<number | undefined>(undefined);
-
-  params$ = this.route.paramMap.pipe(
-    map((params) => {
-      var param = {} as any;
-
-      var page = Number(params.get('page') ?? 1);
-      if (page < 1) {
-        page = 1;
-      }
-      param.page = page;
-
-      var genres = params.getAll('genre').join(',').split(',');
-      if (genres.length > 0) {
-        param.genres = genres;
-      }
-
-      var favorite = params.get('favorite');
-      if (favorite !== 'null') {
-        param.favorite = favorite;
-      }
-
-      var watched = params.get('watched');
-      if (watched !== null) {
-        param.watched = watched;
-      }
-
-      var rating = params.get('rating');
-      if (rating !== null) {
-        param.rating = rating;
-      }
-
-      return param;
-    })
+  params: any = toSignal(
+    this.route.paramMap.pipe(
+      map((params) => ({
+        page: Math.max(Number(params.get('page') ?? 1), 1),
+        search: params.get('search') ?? undefined,
+        genres: params.getAll('genres').join(',').split(',').filter(Boolean),
+        favorite: params.get('favorite') ?? undefined,
+        watched: params.get('watched') ?? undefined,
+        rating: params.get('rating') ?? undefined,
+      }))
+    )
   );
 
-  params: Signal<any> = toSignal(this.params$);
+  filterOptions = signal({
+    search: '',
+    genres: [] as string[],
+    favorite: undefined as string | undefined,
+    watched: undefined as string | undefined,
+    rating: undefined as string | undefined,
+  });
+
+  selectedOptions = signal({
+    search: '',
+    genres: [] as string[],
+    favorite: undefined as string | undefined,
+    watched: undefined as string | undefined,
+    rating: undefined as string | undefined,
+  });
 
   constructor() {
     effect(() => {
-      this.selectedGenres.set(this.params().genres ?? []);
-      this.selectedFavorite.set(this.params().favorite ?? undefined);
-      this.selectedWatched.set(this.params().watched ?? undefined);
-      this.selectedRating.set(this.params().rating ?? undefined);
+      this.selectedOptions.set({
+        search: this.params().search ?? undefined,
+        genres: this.params().genres ?? [],
+        favorite: this.params().favorite ?? undefined,
+        watched: this.params().watched ?? undefined,
+        rating: this.params().rating ?? undefined,
+      });
 
       if (this.currentPage() !== this.params().page) {
         this.currentPage.set(this.params().page);
       }
-
-      console.log(`params`, this.params());
-    });
-
-    effect(() => {
-      if (this.genres$() !== undefined) {
-        this.genres = this.genres$()!.map((genre: any) => ({
-          label: genre.name,
-          value: genre.id,
-        }));
-      }
-    });
-    effect(() => {
       this.offset.set((this.currentPage()! - 1) * this.limit);
-      this.service.onGetAnimes(this.offset(), this.limit);
+      this.service.onGetAnimesByCategory(
+        this.offset(),
+        this.limit,
+        this.selectedOptions()
+      );
     });
+  }
+
+  onSelectedGenre(data: { label: string; value: string }[]) {
+    this.filterOptions.update((state) => ({
+      ...state,
+      genres: data.map((x) => x.value),
+    }));
+  }
+
+  onSelectedRadioState(data: { label: string; value: string }, key: string) {
+    this.filterOptions.update((state) => ({ ...state, [key]: data.value }));
+  }
+
+  onPageChange(page: number): void {
+    this.updateRouteParams({ page: page });
   }
 
   onSubmitForm(event: Event) {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
+    const formData = new FormData(event.target as HTMLFormElement);
+    const search = formData.get('search')?.toString().trim();
 
-    var genres = formData.getAll('genres').join(',').split(',');
-    console.log(genres);
-    var favorite = formData.get('favorite');
-    console.log(favorite);
-    var watched = formData.get('watched');
-    console.log(watched);
-    var rating = formData.get('rating');
+    if (search) {
+      this.filterOptions.update((state) => ({ ...state, search }));
+    }
 
-    console.log(rating);
+    this.updateRouteParams({ ...this.filterOptions(), page: 1 });
   }
 
-  onSelectedGenre(data: { label: string; value: string }[]) {
-    const currentParams = this.route.snapshot.params;
-    this.router.navigate([
-      '/auth/categories',
-      { ...currentParams, genre: data.map((x) => x.value) },
-    ]);
-  }
-  onSelectedFavoriteState(data: { label: string; value: string }) {
-    const currentParams = this.route.snapshot.params;
-    this.router.navigate([
-      '/auth/categories',
-      { ...currentParams, favorite: data.value },
-    ]);
-  }
-  onSelectedWatchedState(data: { label: string; value: string }) {
-    const currentParams = this.route.snapshot.params;
-    this.router.navigate([
-      '/auth/categories',
-      { ...currentParams, watched: data.value },
-    ]);
-  }
-  onSelectedRatingState(data: { label: string; value: string }) {
-    const currentParams = this.route.snapshot.params;
-    this.router.navigate([
-      '/auth/categories',
-      { ...currentParams, rating: data.value },
-    ]);
-  }
-  onPageChange(page: number): void {
-    const currentParams = this.route.snapshot.params;
-    this.router.navigate([
-      '/auth/categories',
-      { ...currentParams, page: page },
-    ]);
-  }
   onToggleFavorite(event: { id: string; favoriteState: boolean }): void {
     this.service.onToggleFavorite(!event.favoriteState, event.id);
+  }
+
+  private updateRouteParams(params: { [key: string]: any }) {
+    const currentParams = this.route.snapshot.params;
+    this.router.navigate(['/auth/categories', { ...currentParams, ...params }]);
   }
 }

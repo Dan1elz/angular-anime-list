@@ -1,43 +1,38 @@
 <form (submit)="onSubmitForm($event)">
   <div class="grid-template">
     <div class="form-group">
-      <input type="search" class="form-control" name="search" placeholder="Search for anime">
+      <input type="search" class="form-control" name="search" placeholder="Search for anime" [value]="selectedOptions().search">
     </div>
     <div class="form-group-options">
 
-      @if(genres !== undefined){
+      @if(genres() !== undefined && genres()!.length > 0){
         <app-input-checkbox-select
           title="Genres"
-          [options]="genres"
-          [current]="selectedGenres()"
+          [options]="genres()"
+          [current]="selectedOptions().genres"
           (output) = "onSelectedGenre($event)"
         />
       }
       <app-input-radio-selected
         title="Favorite State"
         [options]="favorites"
-        [current]="selectedFavorite()"
-        (output) = "onSelectedFavoriteState($event)"
+        [current]="selectedOptions().favorite"
+        (output) = "onSelectedRadioState($event, 'favorite')"
       />
       <app-input-radio-selected
         title="Watched State"
         [options]="watched"
-        [current]="selectedWatched()"
-        (output) = "onSelectedWatchedState($event)"
+        [current]="selectedOptions().watched"
+        (output) = "onSelectedRadioState($event, 'watched')"
       />
       <app-input-radio-selected
         title="Rating"
         [options]="rating"
-        [current]="selectedRating()"
-        (output) = "onSelectedRatingState($event)"
+        [current]="selectedOptions().rating"
+        (output) = "onSelectedRadioState($event, 'rating')"
         name="rating"
       />
 
-
-      <input type="hidden" name="genres" [value]="selectedGenres()">
-      <input type="hidden" name="favorites" [value]="selectedFavorite()">
-      <input type="hidden" name="watched" [value]="selectedWatched()">
-      <input type="hidden" name="rating" [value]="selectedRating()">
       <button type="submit">Search</button>
 
     </div>

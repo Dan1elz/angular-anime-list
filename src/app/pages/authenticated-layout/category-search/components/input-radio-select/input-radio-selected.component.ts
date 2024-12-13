@@ -23,18 +23,12 @@ export class InputRadioSelectedComponent implements OnInit {
   value = '';
 
   ngOnInit() {
-    if (this.current() !== undefined) {
-      const currentOption = this.options()!.find(
-        (option) => option.value === this.current()
-      );
-      if (currentOption) {
-        this.value = currentOption.label;
-      } else {
-        this.value = this.title()!.toString();
-      }
-    } else {
-      this.value = this.title()!.toString();
-    }
+    const currentOption = this.options()?.find(
+      (option) => option.value === this.current()
+    );
+    this.value = currentOption
+      ? currentOption.label
+      : this.title()?.toString() || '';
   }
 
   onChange(data: { label: string; value: string }) {
@@ -42,6 +36,7 @@ export class InputRadioSelectedComponent implements OnInit {
     this.event.nativeElement.click();
     this.output.emit(data);
   }
+
   onClose() {
     this.event.nativeElement.click();
   }

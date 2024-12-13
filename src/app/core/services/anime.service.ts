@@ -23,11 +23,14 @@ export class AnimeService {
   private router = inject(Router);
   private token = this.userService.readonlyUserInfo;
 
-  private animesState = signal<ResponseGetDTO | null>(null);
+  private animesState = signal<ResponseGetDTO | undefined>(undefined);
   animes = this.animesState.asReadonly();
 
-  private animesRatingState = signal<ResponseGetDTO | null>(null);
+  private animesRatingState = signal<ResponseGetDTO | undefined>(undefined);
   animesRating = this.animesRatingState.asReadonly();
+
+  private animesCategoryState = signal<ResponseGetDTO | undefined>(undefined);
+  animesCategory = this.animesCategoryState.asReadonly();
 
   headers = new HttpHeaders({
     Authorization: `Bearer ${this.token()}`,
@@ -98,6 +101,38 @@ export class AnimeService {
         })
       )
       .subscribe((anime) => this.animesRatingState.set(anime));
+  }
+
+  onGetAnimesByCategory(
+    offset: number,
+    limit: number,
+    category: {
+      search: string | undefined;
+      genres: string[];
+      favorite: string | undefined;
+      watched: string | undefined;
+      rating: string | undefined;
+    }
+  ) {
+    return this.http
+      .post<any>(
+        `${this.urlApi}/api/anime/category/${offset}/${limit}`,
+        { category },
+        { headers: this.headers }
+      )
+      .pipe(
+        map((response: any) => {
+          if (response.data) {
+            var animes: AnimesDTO[] = response.data.map(
+              (item: any) => this.animeMapperDTO.mapAnimesDTO(item) as AnimesDTO
+            );
+            const total = response.total;
+            return { animes, total };
+          }
+          return { animes: [], total: 0 };
+        })
+      )
+      .subscribe((animes) => this.animesCategoryState.set(animes));
   }
 
   onDelete(animeId: string): Observable<any> {

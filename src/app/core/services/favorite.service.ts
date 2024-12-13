@@ -4,7 +4,6 @@ import { AnimesDTO, ResponseGetDTO } from '../interfaces/anime-dto.interface';
 import { map } from 'rxjs';
 import { UserService } from './user.service';
 import { AnimeMapperDTO } from '../mappers/animeMapperDTO';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +15,7 @@ export class FavoriteService {
   private http = inject(HttpClient);
   private token = this.userService.readonlyUserInfo;
 
-  private animeState = signal<ResponseGetDTO | null>(null);
+  private animeState = signal<ResponseGetDTO | undefined>(undefined);
   animeFavorited = this.animeState.asReadonly();
 
   headers = new HttpHeaders({
